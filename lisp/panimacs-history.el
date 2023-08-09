@@ -48,4 +48,9 @@
   )
 
 
+;; Save list of recent files
+(recentf-mode 1)
+(global-set-key (kbd "C-c r") #'consult-recent-file)
+
+
 (provide 'panimacs-history)

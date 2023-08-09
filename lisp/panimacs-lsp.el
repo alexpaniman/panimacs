@@ -40,8 +40,7 @@
    (  c-mode . eglot-ensure))
 
   :config
-  (setq read-process-output-max (* 1024 1024))
-  (push :documentHighlightProvider eglot-ignored-server-capabilities))
+  (setq read-process-output-max (* 1024 1024)))
 
 (use-package kind-icon
   :ensure t

@@ -1,6 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-
 (setq initial-scratch-message nil
       inhibit-startup-screen    t
       inhibit-startup-message   t
@@ -16,5 +15,14 @@
 
 (setq native-comp-async-report-warnings-errors nil)
 
+(require 'panimacs-packages)
+
+(use-package which-key
+  :init (which-key-mode)
+  :config
+  (setq which-key-idle-delay 0.7))
+
+
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (provide 'panimacs-ui-defaults)
