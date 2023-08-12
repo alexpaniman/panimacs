@@ -13,6 +13,13 @@
 	(menu-bar-lines        .   0))
       )
 
+
+(defun panimacs/enable-line-numbers ()
+  (interactive)
+  (setq-local display-line-numbers 'relative))
+
+(add-hook 'prog-mode-hook 'panimacs/enable-line-numbers)
+
 (setq native-comp-async-report-warnings-errors nil)
 
 (require 'panimacs-packages)

@@ -15,8 +15,14 @@
 	evil-want-C-i-jump         nil
 	)
 
-  :hook (prog-mode . evil-mode)
+  :config (evil-mode 1)
   )
+
+(use-package evil-collection
+  :after evil-mode
+  :ensure t
+  :config
+  (evil-collection-init))
 
 
 (provide 'panimacs-evil)

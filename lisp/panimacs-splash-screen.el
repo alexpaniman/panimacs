@@ -2,7 +2,7 @@
 
 
 (defvar panimacs/splash-screen-image
-  (create-image "~/emacs-profiles/clean/panimacs-logo.svg"))
+  (create-image (expand-file-name "panimacs-logo.svg" user-emacs-directory)))
 
 (defvar panimacs/splash-screen-buffer-name "*panimacs*")
 
@@ -39,11 +39,11 @@
 
 	   (title
 	    (concat
-	     (propertize "p"    'font-lock-face '(:foreground "#fc6d86" :weight bold))
-	     (propertize "a"    'font-lock-face '(:foreground "#c8a9ff" :weight bold))
-	     (propertize "n"    'font-lock-face '(:foreground "#89b4fa" :weight bold))
-	     (propertize "i"    'font-lock-face '(:foreground "#caff8e" :weight bold))
-	     (propertize "macs" 'font-lock-face '(:foreground "#fc6d86" :weight bold))))
+	     (propertize "p"    'font-lock-face '(:foreground "#f66774" :weight bold))
+	     (propertize "a"    'font-lock-face '(:foreground "#bf6281" :weight bold))
+	     (propertize "n"    'font-lock-face '(:foreground "#f5d662" :weight bold))
+	     (propertize "i"    'font-lock-face '(:foreground "#c8a6dd" :weight bold))
+	     (propertize "macs" 'font-lock-face '(:foreground "#88acce" :weight bold))))
 
 	   (title-length (length title))
 

@@ -69,6 +69,12 @@
 (require 'panimacs-config)
 
 (require 'panimacs-windows)
+
+(require 'panimacs-vcs)
+
+(require 'panimacs-bindings)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -80,4 +86,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(eglot-highlight-symbol-face ((t (:inherit bold :background "#353236")))))
+ '(eglot-highlight-symbol-face ((t (:inherit default :background "gray" :weight bold)))))

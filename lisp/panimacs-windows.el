@@ -10,8 +10,8 @@
 (global-set-key (kbd "M-o") 'ace-window)
 
 (winner-mode 1)
-(global-set-key (kbd "C-c C-j") 'winner-redo)
-(global-set-key (kbd "C-c C-k") 'winner-undo)
+(global-set-key (kbd "C-c C-k") 'winner-redo)
+(global-set-key (kbd "C-c C-j") 'winner-undo)
 
 
 (provide 'panimacs-windows)
