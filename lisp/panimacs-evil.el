@@ -8,6 +8,7 @@
   :init
   (setq evil-want-integration        t
 	evil-undo-system      'undo-fu
+	evil-want-keybinding       nil
 
 	evil-want-C-w-delete       nil
 

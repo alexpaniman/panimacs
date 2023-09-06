@@ -15,7 +15,7 @@
   :demand t
   :custom ((corfu-auto        t)
 	   (corfu-auto-delay  0)
-	   (corfu-auto-prefix 0)
+	   (corfu-auto-prefix 2)
 	   (corfu-quit-no-match 'separator)
 	   (completion-styles '(orderless basic)))
   :init (global-corfu-mode))
@@ -69,14 +69,38 @@
     ;; other customizations can go here
 
     (setq c++-tab-always-indent t)
-    (setq c-basic-offset 4)            ;; Default is 2
-    (setq c-indent-level 4)            ;; Default is 2
+    (setq c-basic-offset 4)            
+    (setq c-ts-common-indent-offset 4)
+    (setq c-indent-level 4)          
 
     (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
     (setq tab-width 4)
     (setq indent-tabs-mode nil))
 
   (add-hook 'c-mode-common-hook 'panimacs/c-mode-common-hook))
+
+(defun my-indent-style()
+  "Override the built-in BSD indentation style with some additional rules"                                                             
+  `(;; Here are your custom rules
+    ((node-is ")") parent-bol 0)                                                                                                         
+    ((match nil "argument_list" nil 1 1) parent-bol c-ts-mode-indent-offset)                                                                                   
+    ((parent-is "argument_list") prev-sibling 0)                                                                                         
+    ((match nil "parameter_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
+    ((parent-is "parameter_list") prev-sibling 0) 
+
+    ;; Append here the indent style you want as base                                                                                       
+   ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))                                                                                                                                                                                                                  
+
+(use-package c-ts-mode                                                                                                                       
+ :if (treesit-language-available-p 'c)                                                                                                
+ :custom                                                                                                                              
+ (c-ts-mode-indent-offset 4)                                                                                                          
+ (c-ts-mode-indent-style #'my-indent-style)                                                                                           
+ :init                                                                                                                                          
+ ;; Remap the standard C/C++ modes                                                                                                        
+ (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))                                                                          
+ (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))                                                                      
+ (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode)))
 
 
 ;; Configure compilation buffer colors
@@ -87,5 +111,37 @@
   :demand t
   :config
   (global-treesit-auto-mode))
+
+
+(straight-use-package
+ '(eat :type git
+       :host codeberg
+       :repo "akib/emacs-eat"
+       :files ("*.el" ("term" "term/*.el") "*.texi"
+               "*.ti" ("terminfo/e" "terminfo/e/*")
+               ("terminfo/65" "terminfo/65/*")
+               ("integration" "integration/*")
+               (:exclude ".dir-locals.el" "*-tests.el"))))
+
+(use-package vterm
+  :config
+  (add-hook 'vterm-mode-hook #'turn-off-evil-mode nil))
+
+
+(use-package magit)
+(use-package evil-magit
+  :config
+  (evil-magit-init)
+  (evil-define-key* evil-magit-state magit-mode-map [escape] nil))
+
+(define-key      c-mode-map (kbd "C-c C-r") #'eglot-rename)
+(define-key    c++-mode-map (kbd "C-c C-r") #'eglot-rename)
+(define-key   c-ts-mode-map (kbd "C-c C-r") #'eglot-rename)
+(define-key c++-ts-mode-map (kbd "C-c C-r") #'eglot-rename)
+
+
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((python . t)))
 
 (provide 'panimacs-lsp)
