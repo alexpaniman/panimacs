@@ -34,7 +34,7 @@
 
       panimacs/default-font-size   20
 
-      panimacs/default-color-theme 'doom-monokai-pro
+      panimacs/default-color-theme 'doom-old-hope
       )
 
 
