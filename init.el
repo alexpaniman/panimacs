@@ -22,6 +22,7 @@
     (make-directory path :parents)))
 
 (require 'panimacs-packages)
+(require 'panimacs-zettelkasten)
 
 (use-package no-littering)
 (require 'no-littering)
@@ -75,12 +76,18 @@
 (require 'panimacs-bindings)
 
 
+
+(require 'panimacs-conspects)
+(require 'panimacs-pdf)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-safe-remote-resources
+   '("\\`https://raw\\.githubusercontent\\.com/alexpaniman/orgmode-templates/master/lab\\.org\\'")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

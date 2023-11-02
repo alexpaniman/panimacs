@@ -40,11 +40,9 @@
   :hook
   ((    c++-mode . eglot-ensure)
    (      c-mode . eglot-ensure)
-   (   java-mode . eglot-ensure)
 
    ( c++-ts-mode . eglot-ensure)
-   (   c-ts-mode . eglot-ensure)
-   (java-ts-mode . eglot-ensure))
+   (   c-ts-mode . eglot-ensure))
 
   :config
   (setq read-process-output-max (* 1024 1024)))
@@ -123,9 +121,97 @@
                ("integration" "integration/*")
                (:exclude ".dir-locals.el" "*-tests.el"))))
 
+(use-package hide-mode-line)
+
+(use-package sudo-edit
+  :ensure t
+  :after embark
+  :bind
+  (:map embark-file-map
+        ("s" . sudo-edit-find-file))
+  (:map embark-become-file+buffer-map
+        ("s" . sudo-edit-find-file)))
+
 (use-package vterm
-  :config
-  (add-hook 'vterm-mode-hook #'turn-off-evil-mode nil))
+  :ensure t
+  ;; :hook (vterm-mode . hide-mode-line-mode) ; modeline serves no purpose in vterm
+  :hook (vterm-mode . turn-off-evil-mode)
+  :init
+  ;; Once vterm is dead, the vterm buffer is useless. Why keep it around? We can
+  ;; spawn another if want one.
+  (setq vterm-timer-delay 0.01)
+
+  (evil-set-initial-state 'vterm-mode 'emacs)
+  (with-eval-after-load 'tramp
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
+  (setq vterm-kill-buffer-on-exit t)
+  (setq vterm-tramp-shells '(("ssh" "/bin/zsh") ("scp" "/bin/zsh") ("su" "/bin/zsh") ("docker" "/bin/sh")))
+
+  ;; 50000 lines of scrollback, instead of 1000
+  (setq vterm-max-scrollback 50000))
+
+(defun run-in-vterm-kill (process event)
+  "A process sentinel. Kills PROCESS's buffer if it is live."
+  (let ((b (process-buffer process)))
+    (and (buffer-live-p b)
+         (kill-buffer b))))
+
+(defun run-in-vterm (command)
+  "Execute string COMMAND in a new vterm.
+
+Interactively, prompt for COMMAND with the current buffer's file
+name supplied. When called from Dired, supply the name of the
+file at point.
+
+Like `async-shell-command`, but run in a vterm for full terminal features.
+
+The new vterm buffer is named in the form `*foo bar.baz*`, the
+command and its arguments in earmuffs.
+
+When the command terminates, the shell remains open, but when the
+shell exits, the buffer is killed."
+  (interactive
+   (list
+    (let* ((f (cond (buffer-file-name)
+                    ((eq major-mode 'dired-mode)
+                     (dired-get-filename nil t))))
+           (filename (concat " " (shell-quote-argument (and f (file-relative-name f))))))
+      (read-shell-command "Terminal command: "
+                          (cons filename 0)
+                          (cons 'shell-command-history 1)
+                          (list filename)))))
+  (with-current-buffer (vterm (concat "*" command "*"))
+    (set-process-sentinel vterm--process #'run-in-vterm-kill)
+    (vterm-send-string command)
+    (vterm-send-return)))
+
+(global-set-key (kbd "C-x M-RET") #'run-in-vterm)
+
+
+(use-package multi-vterm
+	:config
+	(setq vterm-keymap-exceptions nil)
+	(global-set-key            (kbd "M-RET")      #'multi-vterm)
+        (global-set-key            (kbd "C-x p RET")  #'multi-vterm-project)
+        (global-set-key            (kbd "C-'")        #'multi-vterm-dedicated-toggle)
+	(define-key vterm-mode-map (kbd "M-RET")      #'multi-vterm)
+	(define-key vterm-mode-map (kbd "M-TAB")      #'multi-vterm-next)
+	(define-key vterm-mode-map (kbd "M-S-TAB")    #'multi-vterm-prev))
+
+(setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+
+
+;; TODO: make it so it works in tramp
+(cl-loop for file in '("/bin/zsh" "/usr/bin/zsh" "/usr/local/bin/bash" "/bin/bash")
+        when (file-exists-p file)
+        do (progn
+            (setq shell-file-name file)
+            (cl-return)))
+
+(setenv "SHELL" shell-file-name)
+(setq vterm-shell shell-file-name)
+(setq-default vterm-shell shell-file-name)
 
 
 (use-package magit)
@@ -143,5 +229,14 @@
 
 (org-babel-do-load-languages
  'org-babel-load-languages '((python . t)))
+
+(setq-default indent-tabs-mode nil)
+(setq-default electric-indent-inhibit t)
+
+
+(setq python-indent-offset 4)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((C . t)))
 
 (provide 'panimacs-lsp)

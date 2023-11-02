@@ -62,4 +62,5 @@
   :custom
   (straight-use-package-by-default t))
 
+
 (provide 'panimacs-packages)

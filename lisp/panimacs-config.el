@@ -4,10 +4,8 @@
   "Open panimacs config directory, let user select file."
 
   (interactive)
-
-  (cd user-emacs-directory)
-  (project-find-file))
-
+  (let ((default-directory user-emacs-directory))
+    (project-find-file)))
 
 (global-set-key (kbd "C-x RET c") #'panimacs/open-config)
 

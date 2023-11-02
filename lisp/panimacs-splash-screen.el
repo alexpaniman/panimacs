@@ -10,16 +10,16 @@
 (defun panimacs/splash-screen-get-buffer ()
   (get-buffer-create panimacs/splash-screen-buffer-name))
 
-(defun panimacs/show-splash-screen () 
+(defun panimacs/enable-splash-screen () 
   (interactive)
 
-  (switch-to-buffer (panimacs/splash-screen-get-buffer))
-  (panimacs/splash-screen-mode)
+  (with-current-buffer (panimacs/splash-screen-get-buffer)
+    (panimacs/splash-screen-mode)
 
-  (panimacs/splash-screen-resize-image)
-  (add-hook
-   'window-configuration-change-hook
-   #'panimacs/splash-screen-resize-image))
+    (panimacs/splash-screen-resize-image)
+    (add-hook
+     'window-configuration-change-hook
+     #'panimacs/splash-screen-resize-image)))
       
 (define-derived-mode panimacs/splash-screen-mode special-mode
   "Panimacs"
@@ -69,7 +69,8 @@
 
 ;; Install splash screen, automatically show it in new frames:
 
-(add-hook 'emacs-startup-hook           #'panimacs/show-splash-screen)
-(add-hook 'server-after-make-frame-hook #'panimacs/show-splash-screen)
+(setq initial-buffer-choice #'panimacs/splash-screen-get-buffer)
+(add-hook 'emacs-startup-hook           #'panimacs/enable-splash-screen)
+(add-hook 'server-after-make-frame-hook #'panimacs/enable-splash-screen)
 
 (provide 'panimacs-splash-screen)
