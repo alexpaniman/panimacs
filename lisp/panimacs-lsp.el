@@ -38,21 +38,28 @@
   (add-to-list 'eglot-server-programs '(  c-mode . ("clangd")))
 
   :hook
-  ((    c++-mode . eglot-ensure)
-   (      c-mode . eglot-ensure)
+  ((    c++-mode       . eglot-ensure)
+   (      c-mode       . eglot-ensure)
 
-   ( c++-ts-mode . eglot-ensure)
-   (   c-ts-mode . eglot-ensure))
+   ( c++-ts-mode       . eglot-ensure)
+   (   c-ts-mode       . eglot-ensure)
+
+   (typescript-ts-mode . eglot-ensure)
+   (        js-ts-mode . eglot-ensure)
+   )
 
   :config
   (setq read-process-output-max (* 1024 1024)))
+
+(add-to-list 'auto-mode-alist
+             '("\\.ts\\'" . typescript-ts-mode))
 
 (use-package kind-icon
   :ensure t
   :after corfu
   :custom (
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  (kind-icon-default-style 
+  (kind-icon-default-style
    '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.5 :scale 1)))
 
   :config
@@ -67,9 +74,9 @@
     ;; other customizations can go here
 
     (setq c++-tab-always-indent t)
-    (setq c-basic-offset 4)            
+    (setq c-basic-offset 4)
     (setq c-ts-common-indent-offset 4)
-    (setq c-indent-level 4)          
+    (setq c-indent-level 4)
 
     (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
     (setq tab-width 4)
@@ -78,27 +85,30 @@
   (add-hook 'c-mode-common-hook 'panimacs/c-mode-common-hook))
 
 (defun my-indent-style()
-  "Override the built-in BSD indentation style with some additional rules"                                                             
+  "Override the built-in BSD indentation style with some additional rules"
   `(;; Here are your custom rules
-    ((node-is ")") parent-bol 0)                                                                                                         
-    ((match nil "argument_list" nil 1 1) parent-bol c-ts-mode-indent-offset)                                                                                   
-    ((parent-is "argument_list") prev-sibling 0)                                                                                         
+    ((node-is ")") parent-bol 0)
+    ((match nil "argument_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
+    ((parent-is "argument_list") prev-sibling 0)
     ((match nil "parameter_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
-    ((parent-is "parameter_list") prev-sibling 0) 
+    ((parent-is "parameter_list") prev-sibling 0)
 
-    ;; Append here the indent style you want as base                                                                                       
-   ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))                                                                                                                                                                                                                  
+    ;; Append here the indent style you want as base
+   ,@(alist-get 'bsd (c-ts-mode--indent-styles 'cpp))))
 
-(use-package c-ts-mode                                                                                                                       
- :if (treesit-language-available-p 'c)                                                                                                
- :custom                                                                                                                              
- (c-ts-mode-indent-offset 4)                                                                                                          
- (c-ts-mode-indent-style #'my-indent-style)                                                                                           
- :init                                                                                                                                          
- ;; Remap the standard C/C++ modes                                                                                                        
- (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))                                                                          
- (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))                                                                      
+(use-package c-ts-mode
+ :if (treesit-language-available-p 'c)
+ :custom
+ (c-ts-mode-indent-offset 4)
+ (c-ts-mode-indent-style #'my-indent-style)
+ :init
+ ;; Remap the standard C/C++ modes
+ (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+ (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
  (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode)))
+
+
+(use-package haskell-mode)
 
 
 ;; Configure compilation buffer colors
