@@ -84,6 +84,9 @@
 
   (add-hook 'c-mode-common-hook 'panimacs/c-mode-common-hook))
 
+(use-package nix-mode
+  :mode "\\.nix\\'")
+
 (defun my-indent-style()
   "Override the built-in BSD indentation style with some additional rules"
   `(;; Here are your custom rules
