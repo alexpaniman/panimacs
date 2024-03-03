@@ -16,27 +16,29 @@
 (global-set-key (kbd "C-x C-k") #'winner-redo)
 
 
-(defun panimacs/image-display-external (file)
-  "Display file at point using an external viewer.
+
+(with-eval-after-load 'embark
+  (defun panimacs/image-display-external (file)
+    "Display file at point using an external viewer.
 The viewer is specified by the value of `image-dired-external-viewer'."
 
-  ;; TODO: For now it doesn't delete output file when image viewer is closed,
-  ;;       probably should make it do so.
+    ;; TODO: For now it doesn't delete output file when image viewer is closed,
+    ;;       probably should make it do so.
 
-  (interactive "fSelect image: ")
-  (let* ((local-file (if (not (file-remote-p file)) file
-                       (let ((temp-image-file
-                              (make-temp-file "/tmp/panimacs-remote-image-copy" nil (format ".%s" (file-name-extension file)))))
-                         (copy-file file temp-image-file :override-if-exists)
-                         temp-image-file)
+    (interactive "fSelect image: ")
+    (let* ((local-file (if (not (file-remote-p file)) file
+			 (let ((temp-image-file
+				(make-temp-file "/tmp/panimacs-remote-image-copy" nil (format ".%s" (file-name-extension file)))))
+                           (copy-file file temp-image-file :override-if-exists)
+                           temp-image-file)
+			 )
                        )
-                     )
-         )
+           )
 
-    (start-process "image-dired-external" nil
-                   image-dired-external-viewer local-file)))
+      (start-process "image-dired-external" nil
+                     image-dired-external-viewer local-file)))
 
-(define-key embark-file-map (kbd "V") 'panimacs/image-display-external)
+  (define-key embark-file-map (kbd "V") 'panimacs/image-display-external))
 
 (provide 'panimacs-windows)
 
