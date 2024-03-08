@@ -15,6 +15,9 @@
 	(menu-bar-lines        .   0))
       )
 
+;; Very important, disable insanely annoying bell sound!
+(setq ring-bell-function 'ignore)
+
 
 (defun panimacs/enable-line-numbers ()
   (interactive)
