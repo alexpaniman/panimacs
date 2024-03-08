@@ -233,6 +233,9 @@ shell exits, the buffer is killed."
   (evil-magit-init)
   (evil-define-key* evil-magit-state magit-mode-map [escape] nil))
 
+(use-package diff-hl
+  :hook (prog-mode . diff-hl-flydiff-mode))
+
 (define-key      c-mode-map (kbd "C-c C-r") #'eglot-rename)
 (define-key    c++-mode-map (kbd "C-c C-r") #'eglot-rename)
 (define-key   c-ts-mode-map (kbd "C-c C-r") #'eglot-rename)
