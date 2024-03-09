@@ -84,6 +84,10 @@
 
   (add-hook 'c-mode-common-hook 'panimacs/c-mode-common-hook))
 
+
+(use-package cmake-mode)
+
+
 (use-package nix-mode
   :mode "\\.nix\\'")
 
