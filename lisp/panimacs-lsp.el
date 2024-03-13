@@ -29,28 +29,6 @@
   :defer t
   :after yasnippet)
 
-(use-package eglot
-  :defer t
-  :ensure t
-
-  :config
-  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(  c-mode . ("clangd")))
-
-  :hook
-  ((    c++-mode       . eglot-ensure)
-   (      c-mode       . eglot-ensure)
-
-   ( c++-ts-mode       . eglot-ensure)
-   (   c-ts-mode       . eglot-ensure)
-
-   (typescript-ts-mode . eglot-ensure)
-   (        js-ts-mode . eglot-ensure)
-   )
-
-  :config
-  (setq read-process-output-max (* 1024 1024)))
-
 (add-to-list 'auto-mode-alist
              '("\\.ts\\'" . typescript-ts-mode))
 
@@ -241,10 +219,47 @@ shell exits, the buffer is killed."
   :config (global-diff-hl-mode 1)
   :hook (prog-mode . diff-hl-flydiff-mode))
 
-(define-key      c-mode-map (kbd "C-c C-r") #'eglot-rename)
-(define-key    c++-mode-map (kbd "C-c C-r") #'eglot-rename)
-(define-key   c-ts-mode-map (kbd "C-c C-r") #'eglot-rename)
-(define-key c++-ts-mode-map (kbd "C-c C-r") #'eglot-rename)
+
+;; (use-package eglot
+;;   :defer t
+;;   :ensure t
+
+;;   :config
+;;   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
+;;   (add-to-list 'eglot-server-programs '(  c-mode . ("clangd")))
+
+;;   :hook
+;;   ((    c++-mode       . eglot-ensure)
+;;    (      c-mode       . eglot-ensure)
+
+;;    ( c++-ts-mode       . eglot-ensure)
+;;    (   c-ts-mode       . eglot-ensure)
+
+;;    (typescript-ts-mode . eglot-ensure)
+;;    (        js-ts-mode . eglot-ensure)
+;;    )
+
+;;   :bind
+;;   (:map prog-mode-map
+;;    ("C-c C-r" . eglot-rename)
+;;    )
+
+;;   :config
+;;   (setq read-process-output-max (* 1024 1024)))
+
+
+
+(use-package lsp-mode
+  :custom
+  ((lsp-keymap-prefix "C-c l")
+   (lsp-headerline-breadcrumb-mode nil)
+   ;; OPTIMIZATION
+   (read-process-output-max (* 1024 1024)))
+  :hook ((c-mode . lsp) (c++-mode . lsp))
+  :config
+  (setq read-process-output-max (* 1024 1024)))
+
+;; TODO: read about :commands
 
 
 
