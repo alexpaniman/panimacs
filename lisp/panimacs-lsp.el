@@ -252,12 +252,13 @@ shell exits, the buffer is killed."
 (use-package lsp-mode
   :custom
   ((lsp-keymap-prefix "C-c l")
-   (lsp-headerline-breadcrumb-mode nil)
+   (lsp-headerline-breadcrumb-enable nil)
    ;; OPTIMIZATION
    (read-process-output-max (* 1024 1024)))
-  :hook ((c-mode . lsp) (c++-mode . lsp))
+  :hook ((c-ts-mode . lsp-deferred) (c++-ts-mode . lsp-deferred))
   :config
-  (setq read-process-output-max (* 1024 1024)))
+  (lsp-enable-which-key-integration t)
+  :commands (lsp lsp-deferred))
 
 ;; TODO: read about :commands
 
