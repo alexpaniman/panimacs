@@ -260,8 +260,17 @@ shell exits, the buffer is killed."
   (lsp-enable-which-key-integration t)
   :commands (lsp lsp-deferred))
 
-;; TODO: read about :commands
+(use-package lsp-ui
+  :custom
+  ((lsp-ui-sideline-show-diagnostics t)
+   (lsp-ui-sideline-show-code-actions t)
+   (lsp-ui-doc-show-with-cursor t)
+   ;; (lsp-ui-doc-use-webkit t) ;; TODO: currently compiled with no support
+   ))
 
+(use-package flycheck
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package envrc
   :after (lsp-mode flycheck)
