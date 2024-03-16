@@ -263,6 +263,9 @@ shell exits, the buffer is killed."
 ;; TODO: read about :commands
 
 
+(use-package envrc
+  :after (lsp-mode flycheck)
+  :init (envrc-global-mode))
 
 (org-babel-do-load-languages
  'org-babel-load-languages '((python . t)))
