@@ -51,7 +51,7 @@
   )
 
 
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.1))
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 1))
 (setq org-startup-with-latex-preview t)
 
 ;; better than the default, works for tikzpicture
