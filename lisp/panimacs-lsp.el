@@ -262,6 +262,8 @@ shell exits, the buffer is killed."
 
 (use-package lsp-ui
   :custom
+  (flycheck-indication-mode 'right-fringe)
+  :custom
   ((lsp-ui-sideline-show-diagnostics t)
    (lsp-ui-sideline-show-code-actions t)
    (lsp-ui-doc-show-with-cursor t)

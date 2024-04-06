@@ -9,8 +9,8 @@
       default-frame-alist
       '((vertical-scroll-bars  . nil)
 	(internal-border-width .   2)
-	(left-fringe           .  10)
-	(right-fringe          .  10)
+	(left-fringe           .   2)
+	(right-fringe          .   8)
 	(tool-bar-lines        .   0)
 	(menu-bar-lines        .   0))
       )
