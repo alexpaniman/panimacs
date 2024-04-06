@@ -266,8 +266,9 @@ shell exits, the buffer is killed."
   :custom
   ((lsp-ui-sideline-show-diagnostics t)
    (lsp-ui-sideline-show-code-actions t)
-   (lsp-ui-doc-show-with-cursor t)
-   ;; (lsp-ui-doc-use-webkit t) ;; TODO: currently compiled with no support
+   (lsp-ui-doc-show-with-cursor nil)
+   (lsp-ui-doc-show-with-cursor nil)
+   (lsp-ui-doc-show-with-mouse  nil)
    ))
 
 (use-package flycheck
