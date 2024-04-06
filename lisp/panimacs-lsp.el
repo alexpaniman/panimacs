@@ -220,34 +220,6 @@ shell exits, the buffer is killed."
   :hook (prog-mode . diff-hl-flydiff-mode))
 
 
-;; (use-package eglot
-;;   :defer t
-;;   :ensure t
-
-;;   :config
-;;   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-;;   (add-to-list 'eglot-server-programs '(  c-mode . ("clangd")))
-
-;;   :hook
-;;   ((    c++-mode       . eglot-ensure)
-;;    (      c-mode       . eglot-ensure)
-
-;;    ( c++-ts-mode       . eglot-ensure)
-;;    (   c-ts-mode       . eglot-ensure)
-
-;;    (typescript-ts-mode . eglot-ensure)
-;;    (        js-ts-mode . eglot-ensure)
-;;    )
-
-;;   :bind
-;;   (:map prog-mode-map
-;;    ("C-c C-r" . eglot-rename)
-;;    )
-
-;;   :config
-;;   (setq read-process-output-max (* 1024 1024)))
-
-
 
 (use-package lsp-mode
   :custom
