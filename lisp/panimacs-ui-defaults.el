@@ -72,8 +72,8 @@ Containing LEFT, and RIGHT aligned respectively."
          		  mode-line-remote
          		  mode-line-frame-identification
          		  mode-line-buffer-identification
-         		  " [%*]"
-			  mode-line-misc-info
+         		  " (%*) "
+                          mode-line-misc-info
          		  )
          		 )
 
