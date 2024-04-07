@@ -30,8 +30,8 @@
 (defun panimacs/splash-screen-resize-image ()
   (with-current-buffer (panimacs/splash-screen-get-buffer)
     (let* ((img-size (image-size panimacs/splash-screen-image))
-	   (img-height (cdr img-size))
-	   (img-width  (car img-size))
+	   (img-height (ceiling (cdr img-size)))
+	   (img-width  (ceiling (car img-size)))
 
 	   (win (get-buffer-window))
 	   (win-height (window-height win))
@@ -47,8 +47,17 @@
 
 	   (title-length (length title))
 
+           (setup-padding
+            (lambda (total-size centered-size win)
+              (when (> total-size centered-size)
+                (when (window-live-p win)
+                  (let ((padding-side-width (/ (max 0 (- (window-total-width win) (floor centered-size))) 2)))
+                    (set-window-start win 0)
+                    (set-window-fringes win 0 0)
+                    (set-window-margins win padding-side-width))))))
+
 	   (insert-padding
-	    (lambda (total-size centered-size padding-char)
+            (lambda (total-size centered-size padding-char)
 	      (when (> total-size centered-size)
 		(insert (make-string
 			 (floor (/ (- total-size centered-size) 2)) padding-char)))))
@@ -56,15 +65,18 @@
 	   (inhibit-read-only t))
 
       (erase-buffer)
-      (funcall insert-padding win-height img-height ?\n)
+      (insert (make-string 3 ?\n))
 
-      (when (and (<= img-width win-width) (<= img-height win-height))
-	(funcall insert-padding win-width img-width ?\ )
-	(insert-image panimacs/splash-screen-image)
+      (insert-image panimacs/splash-screen-image)
+      (when-let (windows (get-buffer-window-list (panimacs/splash-screen-get-buffer) nil t))
+        (dolist (win windows)
+          (funcall setup-padding win-width img-width win))
+        )
 
-	(insert (make-string 3 ?\n)))
+      (insert (make-string 3 ?\n))
 
-      (funcall insert-padding win-width (length title) ?\ ) (insert title))))
+      (funcall insert-padding img-width title-length ?\ )
+      (insert title))))
 
 
 ;; Install splash screen, automatically show it in new frames:
