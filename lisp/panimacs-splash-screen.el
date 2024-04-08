@@ -19,7 +19,8 @@
     (panimacs/splash-screen-resize-image)
     (add-hook
      'window-configuration-change-hook
-     #'panimacs/splash-screen-resize-image)
+     #'panimacs/splash-screen-resize-image
+     )
     )
   )
       

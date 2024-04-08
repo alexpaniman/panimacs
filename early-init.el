@@ -9,7 +9,3 @@
 (push '(tool-bar-lines . 0)   default-frame-alist)
 (push '(menu-bar-lines . 0)   default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
-
-(set-face-attribute 'default nil
-    :width 'normal :weight 'normal :slant 'normal
-    :font (font-spec :family "JetBrains Mono" :size 20))

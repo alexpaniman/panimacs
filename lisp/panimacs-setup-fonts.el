@@ -2,6 +2,7 @@
 
 
 (require 'cl-lib)
+(require 'panimacs-splash-screen)
 
 
 (defvar panimacs/font)
@@ -36,7 +37,10 @@
 
   (when (and (fboundp 'set-fontset-font)  panimacs/unicode-font)
     (set-fontset-font t 'unicode
-     (panimacs/init-fonts--apply-defaults panimacs/unicode-font))))
+     (panimacs/init-fonts--apply-defaults panimacs/unicode-font)))
+
+  (panimacs/splash-screen-resize-image)
+  )
 
 
 (defun panimacs/adjust-font-size (delta)
