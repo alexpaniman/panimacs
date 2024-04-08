@@ -19,7 +19,9 @@
     (panimacs/splash-screen-resize-image)
     (add-hook
      'window-configuration-change-hook
-     #'panimacs/splash-screen-resize-image)))
+     #'panimacs/splash-screen-resize-image)
+    )
+  )
       
 (define-derived-mode panimacs/splash-screen-mode special-mode
   "Panimacs"
@@ -30,12 +32,7 @@
 (defun panimacs/splash-screen-resize-image ()
   (with-current-buffer (panimacs/splash-screen-get-buffer)
     (let* ((img-size (image-size panimacs/splash-screen-image))
-	   (img-height (ceiling (cdr img-size)))
 	   (img-width  (ceiling (car img-size)))
-
-	   (win (get-buffer-window))
-	   (win-height (window-height win))
-	   (win-width  (window-width  win))
 
 	   (title
 	    (concat
@@ -48,13 +45,12 @@
 	   (title-length (length title))
 
            (setup-padding
-            (lambda (total-size centered-size win)
-              (when (> total-size centered-size)
-                (when (window-live-p win)
-                  (let ((padding-side-width (/ (max 0 (- (window-total-width win) (floor centered-size))) 2)))
-                    (set-window-start win 0)
-                    (set-window-fringes win 0 0)
-                    (set-window-margins win padding-side-width))))))
+            (lambda (centered-size win)
+              (when (window-live-p win)
+                (set-window-start   win 0)
+                (set-window-fringes win 0)
+                (let ((padding-side-width (/ (max 0 (- (window-total-width win) (floor centered-size))) 2)))
+                  (set-window-margins win padding-side-width)))))
 
 	   (insert-padding
             (lambda (total-size centered-size padding-char)
@@ -67,16 +63,19 @@
       (erase-buffer)
       (insert (make-string 3 ?\n))
 
-      (insert-image panimacs/splash-screen-image)
       (when-let (windows (get-buffer-window-list (panimacs/splash-screen-get-buffer) nil t))
         (dolist (win windows)
-          (funcall setup-padding win-width img-width win))
+          (funcall setup-padding img-width win))
         )
+      (insert-image panimacs/splash-screen-image)
 
       (insert (make-string 3 ?\n))
 
       (funcall insert-padding img-width title-length ?\ )
-      (insert title))))
+      (insert title)
+      )
+    )
+  )
 
 
 ;; Install splash screen, automatically show it in new frames:
