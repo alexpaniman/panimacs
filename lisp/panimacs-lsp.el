@@ -230,7 +230,10 @@ shell exits, the buffer is killed."
   :hook ((c-ts-mode . lsp-deferred) (c++-ts-mode . lsp-deferred))
   :config
   (lsp-enable-which-key-integration t)
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :bind (:map c++-ts-mode-map
+              ("C-c C-o" . lsp-clangd-find-other-file))
+  )
 
 (use-package lsp-ui
   :custom
