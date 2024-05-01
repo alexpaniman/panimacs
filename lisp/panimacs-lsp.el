@@ -221,37 +221,42 @@ shell exits, the buffer is killed."
 
 
 
-(use-package lsp-mode
+(use-package eglot
   :custom
-  ((lsp-keymap-prefix "C-c l")
-   (lsp-headerline-breadcrumb-enable nil)
-   ;; OPTIMIZATION
-   (read-process-output-max (* 1024 1024)))
-  :hook ((c-ts-mode . lsp-deferred) (c++-ts-mode . lsp-deferred))
-  :config
-  (lsp-enable-which-key-integration t)
-  :commands (lsp lsp-deferred)
-  :bind (:map c++-ts-mode-map
-              ("C-c C-o" . lsp-clangd-find-other-file))
-  )
+  ((read-process-output-max (* 1024 1024)))
+  :hook ((c-ts-mode   . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
+         )
+  :commands (eglot eglot-ensure))
 
-(use-package lsp-ui
-  :custom
-  (flycheck-indication-mode 'right-fringe)
-  :custom
-  ((lsp-ui-sideline-show-diagnostics t)
-   (lsp-ui-sideline-show-code-actions t)
-   (lsp-ui-doc-show-with-cursor nil)
-   (lsp-ui-doc-show-with-cursor nil)
-   (lsp-ui-doc-show-with-mouse  nil)
-   ))
+;; (use-package lsp-mode
+;;   :custom
+;;   ((lsp-keymap-prefix "C-c l")
+;;    (lsp-headerline-breadcrumb-enable nil)
+;;    ;; OPTIMIZATION
+;;    (read-process-output-max (* 1024 1024)))
+;;   :hook ((c-ts-mode . lsp-deferred) (c++-ts-mode . lsp-deferred))
+;;   :config
+;;   (lsp-enable-which-key-integration t)
+;;   :commands (lsp lsp-deferred))
+
+;; (use-package lsp-ui
+;;   :custom
+;;   (flycheck-indication-mode 'right-fringe)
+;;   :custom
+;;   ((lsp-ui-sideline-show-diagnostics t)
+;;    (lsp-ui-sideline-show-code-actions t)
+;;    (lsp-ui-doc-show-with-cursor nil)
+;;    (lsp-ui-doc-show-with-cursor nil)
+;;    (lsp-ui-doc-show-with-mouse  nil)
+;;    ))
 
 (use-package flycheck
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package envrc
-  :after (lsp-mode flycheck)
+  :after (flycheck eglot)
   :init (envrc-global-mode))
 
 (org-babel-do-load-languages
