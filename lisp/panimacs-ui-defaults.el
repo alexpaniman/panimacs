@@ -57,39 +57,29 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 
-(defun simple-mode-line-render (left right)
-  "Return a string of `window-width' length.
-Containing LEFT, and RIGHT aligned respectively."
-  (let ((available-width
-	 (- (window-total-width)
-            (+ (length (format-mode-line left))
-               (length (format-mode-line right))))))
-    (append left
-            (list (format (format "%%%ds" available-width) "")) right)))
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :custom    
+  (doom-modeline-height 20)
+  (doom-modeline-bar-width 1)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon t)
+  (doom-modeline-major-mode-color-icon t)
+  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  (doom-modeline-buffer-state-icon t)
+  (doom-modeline-buffer-modification-icon t)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-enable-word-count nil)
+  (doom-modeline-buffer-encoding t)
+  (doom-modeline-indent-info nil)
+  (doom-modeline-checker-simple-format t)
+  (doom-modeline-vcs-max-length 12)
+  (doom-modeline-env-version t)
+  (doom-modeline-irc-stylize 'identity)
+  (doom-modeline-github-timer nil)
+  (doom-modeline-gnus-timer nil)
+  (doom-modeline-hud nil))
 
-(setq-default mode-line-format
-            '((:eval (simple-mode-line-render
-         		;; left aligned
-         		(quote
-         		 ("%e"
-         		  mode-line-front-space
-         		  mode-line-mule-info
-         		  " "
-         		  mode-line-client
-         		  mode-line-modified
-         		  mode-line-remote
-         		  mode-line-frame-identification
-         		  mode-line-buffer-identification
-         		  " (%*) "
-                          mode-line-misc-info
-         		  )
-         		 )
-
-
-         		;; right aligned
-         		(quote ("%l:%c" " " mode-name " ")))
-         	       ))
-	    )
 
 (setq backup-directory-alist '((".*" . "~/.trash/")))
 (setq create-lockfiles nil)
