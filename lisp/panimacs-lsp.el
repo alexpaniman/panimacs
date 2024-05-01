@@ -229,6 +229,12 @@ shell exits, the buffer is killed."
          )
   :commands (eglot eglot-ensure))
 
+;; Make eglot correctly detect project root in some cases:
+(use-package project
+ :init
+ (setq project-vc-extra-root-markers '(".envrc" "build" ".projectile")))
+
+
 ;; (use-package lsp-mode
 ;;   :custom
 ;;   ((lsp-keymap-prefix "C-c l")
