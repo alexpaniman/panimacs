@@ -222,7 +222,7 @@ shell exits, the buffer is killed."
 
 
 
-(use-package python-ts-mode
+(use-package python-mode
  :init
  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
 
