@@ -90,7 +90,8 @@
  ;; Remap the standard C/C++ modes
  (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
  (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
- (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode)))
+ (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode))
+ )
 
 
 (use-package haskell-mode)
@@ -221,12 +222,19 @@ shell exits, the buffer is killed."
 
 
 
+(use-package python-ts-mode
+ :init
+ (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
+
 (use-package eglot
   :custom
   ((read-process-output-max (* 1024 1024)))
-  :hook ((c-ts-mode   . eglot-ensure)
-         (c++-ts-mode . eglot-ensure)
-         )
+
+  :hook ((       c-ts-mode . eglot-ensure)
+         (     c++-ts-mode . eglot-ensure)
+         (c-or-c++-ts-mode . eglot-ensure)
+
+         (  python-ts-mode . eglot-ensure))
   :commands (eglot eglot-ensure))
 
 ;; Make eglot correctly detect project root in some cases:
