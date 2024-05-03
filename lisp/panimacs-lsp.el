@@ -221,48 +221,48 @@ shell exits, the buffer is killed."
 
 
 
-;; (use-package eglot
-;;   :custom
-;;   ((read-process-output-max (* 1024 1024)))
-;;   :hook ((c-ts-mode   . eglot-ensure)
-;;          (c++-ts-mode . eglot-ensure)
-;;          )
-;;   :commands (eglot eglot-ensure))
+(use-package eglot
+  :custom
+  ((read-process-output-max (* 1024 1024)))
+  :hook ((c-ts-mode   . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
+         )
+  :commands (eglot eglot-ensure))
 
-;; Make project.el correctly detect project root in some cases:
+;; Make eglot correctly detect project root in some cases:
 (use-package project
  :init
  (setq project-vc-extra-root-markers '(".envrc" "build" ".projectile")))
 
 
-(use-package lsp-mode
-  :custom
-  ((lsp-keymap-prefix "C-c l")
-   (lsp-headerline-breadcrumb-enable nil)
-   ;; OPTIMIZATION
-   (read-process-output-max (* 1024 1024)))
-  :hook ((c-ts-mode . lsp-deferred) (c++-ts-mode . lsp-deferred))
-  :config
-  (lsp-enable-which-key-integration t)
-  :commands (lsp lsp-deferred))
+;; (use-package lsp-mode
+;;   :custom
+;;   ((lsp-keymap-prefix "C-c l")
+;;    (lsp-headerline-breadcrumb-enable nil)
+;;    ;; OPTIMIZATION
+;;    (read-process-output-max (* 1024 1024)))
+;;   :hook ((c-ts-mode . lsp-deferred) (c++-ts-mode . lsp-deferred))
+;;   :config
+;;   (lsp-enable-which-key-integration t)
+;;   :commands (lsp lsp-deferred))
 
-(use-package lsp-ui
-  :custom
-  (flycheck-indication-mode 'right-fringe)
-  :custom
-  ((lsp-ui-sideline-show-diagnostics t)
-   (lsp-ui-sideline-show-code-actions t)
-   (lsp-ui-doc-show-with-cursor nil)
-   (lsp-ui-doc-show-with-cursor nil)
-   (lsp-ui-doc-show-with-mouse  nil)
-   ))
+;; (use-package lsp-ui
+;;   :custom
+;;   (flycheck-indication-mode 'right-fringe)
+;;   :custom
+;;   ((lsp-ui-sideline-show-diagnostics t)
+;;    (lsp-ui-sideline-show-code-actions t)
+;;    (lsp-ui-doc-show-with-cursor nil)
+;;    (lsp-ui-doc-show-with-cursor nil)
+;;    (lsp-ui-doc-show-with-mouse  nil)
+;;    ))
 
 (use-package flycheck
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package envrc
-  :after (flycheck lsp-mode)
+  :after (flycheck eglot)
   :init (envrc-global-mode))
 
 (org-babel-do-load-languages
