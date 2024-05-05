@@ -218,6 +218,64 @@ shell exits, the buffer is killed."
 
 (use-package diff-hl
   :config (global-diff-hl-mode 1)
+
+  ;; FIXME: shamelessly stolen from doom, don't use internal defadvice!
+  (defmacro defadvice! (symbol arglist &optional docstring &rest body)
+    "Define an advice called SYMBOL and add it to PLACES.
+
+ARGLIST is as in `defun'. WHERE is a keyword as passed to `advice-add', and
+PLACE is the function to which to add the advice, like in `advice-add'.
+DOCSTRING and BODY are as in `defun'.
+
+\(fn SYMBOL ARGLIST &optional DOCSTRING &rest [WHERE PLACES...] BODY\)"
+    (declare (doc-string 3) (indent defun))
+    (unless (stringp docstring)
+      (push docstring body)
+      (setq docstring nil))
+    (let (where-alist)
+      (while (keywordp (car body))
+        (push `(cons ,(pop body) (ensure-list ,(pop body)))
+              where-alist))
+      `(progn
+         (defun ,symbol ,arglist ,docstring ,@body)
+         (dolist (targets (list ,@(nreverse where-alist)))
+           (dolist (target (cdr targets))
+             (advice-add target (car targets) #',symbol))))))
+  (defun doom-rpartial (fn &rest args)
+    "Return a partial application of FUN to right-hand ARGS.
+
+ARGS is a list of the last N arguments to pass to FUN. The result is a new
+function which does the same as FUN, except that the last N arguments are fixed
+at the values with which this function was called."
+    (declare (side-effect-free t))
+    (lambda (&rest pre-args)
+      (apply fn (append pre-args args))))
+
+  (defadvice! +vc-gutter-define-thin-bitmaps-a (&rest args)
+    :override #'diff-hl-define-bitmaps
+    (define-fringe-bitmap 'diff-hl-bmp-middle [224] nil nil '(center repeated))
+    (define-fringe-bitmap 'diff-hl-bmp-delete [240 224 192 128] nil nil 'top))
+
+  (defun +vc-gutter-type-face-fn (type _pos)
+    (intern (format "diff-hl-%s" type)))
+
+  (defun +vc-gutter-type-at-pos-fn (type _pos)
+    (if (eq type 'delete)
+        'diff-hl-bmp-delete
+      'diff-hl-bmp-middle))
+  (advice-add #'diff-hl-fringe-bmp-from-pos  :override #'+vc-gutter-type-at-pos-fn)
+  (advice-add #'diff-hl-fringe-bmp-from-type :override #'+vc-gutter-type-at-pos-fn)
+
+  (setq diff-hl-draw-borders nil)
+
+
+  (add-hook 'diff-hl-mode-hook
+            (defun +vc-gutter-fix-diff-hl-faces-h ()
+              (mapc (doom-rpartial #'set-face-background nil)
+                    '(diff-hl-insert
+                      diff-hl-delete
+                      diff-hl-change))))
+
   :hook (prog-mode . diff-hl-flydiff-mode))
 
 
