@@ -2,6 +2,72 @@
 
 (require 'panimacs-packages)
 
+(use-package popper
+  :ensure t ; or :straight t
+  :bind (("C-a"   . popper-toggle)
+         ("M-j"   . popper-cycle)
+         ("C-S-a" . popper-toggle-type))
+  :config
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          helpful-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1)
+  (setq popper-group-function #'popper-group-by-project)
+  (setq popper-display-function #'display-buffer-in-side-window)
+  (setq popper-mode-line '(:eval (propertize " POP " 'face 'mode-line-emphasis)))
+  (setq popper-display-control nil)
+  )
+
+;; Setup display-buffer-alist for different windows
+(add-to-list 'display-buffer-alist
+            '("\\*e?shell\\*"
+                (display-buffer-in-side-window)
+                (side . bottom)
+                (slot . -1) ;; -1 == L  0 == Mid 1 == R
+                (window-height . 0.33) ;; take 2/3 on bottom left
+                (window-parameters
+                (no-delete-other-windows . nil))))
+
+(add-to-list 'display-buffer-alist
+            '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\)\\*"
+                (display-buffer-in-side-window)
+                (side . bottom)
+                (slot . 0)
+                (window-height . 0.33)
+                (window-parameters
+                (no-delete-other-windows . nil))))
+
+(add-to-list 'display-buffer-alist
+            '("\\*\\([Hh]elp\\|Command History\\|command-log\\)\\*"
+                (display-buffer-in-side-window)
+                (side . right)
+                (slot . 0)
+                (window-width . 80)
+                (window-parameters
+                (no-delete-other-windows . nil))))
+
+(add-to-list 'display-buffer-alist
+            '("\\*TeX errors\\*"
+                (display-buffer-in-side-window)
+                (side . bottom)
+                (slot . 3)
+                (window-height . shrink-window-if-larger-than-buffer)
+                (dedicated . t)))
+
+(add-to-list 'display-buffer-alist
+            '("\\*TeX Help\\*"
+                (display-buffer-in-side-window)
+                (side . bottom)
+                (slot . 4)
+                (window-height . shrink-window-if-larger-than-buffer)
+                (dedicated . t)))
+
+
 (use-package ace-window
   :config
   (setq aw-dispatch-always t)
