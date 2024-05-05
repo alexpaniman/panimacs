@@ -40,10 +40,16 @@
 
 (use-package helpful
   :bind
-  ([remap describe-key]      . helpful-key)
-  ([remap describe-command]  . helpful-command)
-  ([remap describe-variable] . helpful-variable)
-  ([remap describe-function] . helpful-callable))
+  (([remap describe-key]      . helpful-key)
+   ([remap describe-command]  . helpful-command)
+   ([remap describe-variable] . helpful-variable)
+   ([remap describe-function] . helpful-callable))
+
+  :config
+  ;; I really want helpful to stop "helping" immediately when I type "q", PLEASE
+  (evil-define-key 'normal helpful-mode-map (kbd "q") #'quit-window)
+  (evil-define-key 'insert helpful-mode-map (kbd "q") #'quit-window)
+  )
 
 (use-package popwin
   :config (popwin-mode 1))
