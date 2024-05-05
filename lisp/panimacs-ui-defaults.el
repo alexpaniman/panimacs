@@ -79,7 +79,7 @@
   (doom-modeline-buffer-encoding t)
   (doom-modeline-indent-info nil)
   (doom-modeline-checker-simple-format t)
-  (doom-modeline-vcs-max-length 12)
+  (doom-modeline-vcs-max-length 20)
   (doom-modeline-env-version t)
   (doom-modeline-irc-stylize 'identity)
   (doom-modeline-github-timer nil)
