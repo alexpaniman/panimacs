@@ -4,9 +4,10 @@
 
 (use-package popper
   :ensure t ; or :straight t
-  :bind (("C-a"   . popper-toggle)
-         ("M-j"   . popper-cycle)
-         ("C-S-a" . popper-toggle-type))
+  :bind (("M-j"   . popper-cycle)
+         ("M-k"   . popper-toggle)
+         ("M-S-j" . popper-toggle-type)
+         ("M-S-k" . popper-kill-latest-popup))
   :config
   (setq popper-reference-buffers
         '("\\*Messages\\*"
