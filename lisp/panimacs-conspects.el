@@ -201,9 +201,11 @@
 
 (define-key org-mode-map (kbd "C-c f") #'panimacs/org-open-or-create-figure)
 
-
-
-
+(use-package org-modern
+  :config
+  (add-hook 'org-mode-hook #'org-modern-mode)
+  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+)
 
 
 (setq org-src-preserve-indentation nil)
