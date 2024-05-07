@@ -207,6 +207,11 @@
   (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
 )
 
+(use-package org-tidy
+  :ensure t
+  :hook
+  (org-mode . org-tidy-mode))
+
 
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
