@@ -239,13 +239,6 @@
 
 (require 'org-tempo)
 
-;; TODO: is it useful?
-(straight-use-package
- '(virtual-auto-fill
-   :type git
-   :host github
-   :repo "luisgerhorst/virtual-auto-fill"))
-
 (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1)))
 
 (provide 'panimacs-conspects)
