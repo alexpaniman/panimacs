@@ -24,6 +24,7 @@
   (setq-local display-line-numbers 'relative))
 
 (add-hook 'prog-mode-hook 'panimacs/enable-line-numbers)
+(add-hook  'org-mode-hook 'panimacs/enable-line-numbers)
 
 (setq native-comp-async-report-warnings-errors nil)
 
