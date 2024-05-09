@@ -377,12 +377,8 @@ means save all with no questions."
 ;;    (lsp-ui-doc-show-with-mouse  nil)
 ;;    ))
 
-(use-package flycheck
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
-
 (use-package envrc
-  :after (flycheck eglot)
+  :after (flymake eglot)
   :init (envrc-global-mode))
 
 (org-babel-do-load-languages
