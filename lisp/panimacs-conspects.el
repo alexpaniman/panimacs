@@ -203,24 +203,6 @@
 
 (define-key org-mode-map (kbd "C-c f") #'panimacs/org-open-or-create-figure)
 
-(use-package org-modern
-  :config
-  (add-hook 'org-mode-hook #'org-modern-mode)
-  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
-  (setq org-modern-table nil)
-)
-
-(use-package org-tidy
-  :ensure t
-  :hook (org-mode . org-tidy-mode)
-  )
-
-(use-package valign
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook #'valign-mode)
-  (setq valign-fancy-bar t))
-
 
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
@@ -241,6 +223,8 @@
 ;;     (:exports . "results")))
 
 (use-package org
+  :config
+  (setq org-hide-leading-stars t)
   :bind
   (:map org-mode-map
         ("C-c C-a" . #'org-latex-export-to-pdf)))
