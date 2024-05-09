@@ -238,6 +238,10 @@
 ;;     (:results . "outputs drawer")
 ;;     (:exports . "results")))
 
+(use-package org
+  :bind
+  (:map org-mode-map
+        ("C-c C-a" . #'org-latex-export-to-pdf)))
 
 (require 'org-tempo)
 
