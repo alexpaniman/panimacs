@@ -207,6 +207,7 @@
   :config
   (add-hook 'org-mode-hook #'org-modern-mode)
   (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+  (setq org-modern-table nil)
 )
 
 (use-package org-tidy
