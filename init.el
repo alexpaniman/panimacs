@@ -49,7 +49,7 @@
 
 ;; Load and enable splash screen with panimacs name and logo
 ;; that will automatically show in every launched frame:
-(require 'panimacs-splash-screen)
+;;(require 'panimacs-splash-screen)
 
 
 ;; ======================= TUNE EDITING ======================= 
