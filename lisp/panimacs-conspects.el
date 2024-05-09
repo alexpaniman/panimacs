@@ -209,8 +209,13 @@
 
 (use-package org-tidy
   :ensure t
-  :hook
-  (org-mode . org-tidy-mode))
+  :hook (org-mode . org-tidy-mode)
+  )
+
+(use-package valign
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook #'valign-mode))
 
 
 (setq org-src-preserve-indentation nil)
