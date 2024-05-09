@@ -218,7 +218,8 @@
 (use-package valign
   :ensure t
   :config
-  (add-hook 'org-mode-hook #'valign-mode))
+  (add-hook 'org-mode-hook #'valign-mode)
+  (setq valign-fancy-bar t))
 
 
 (setq org-src-preserve-indentation nil)
