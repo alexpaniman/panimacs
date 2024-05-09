@@ -1,5 +1,7 @@
 ;;; panimacs-lsp.el --- panimacs :: -*- lexical-binding: t -*-
 
+(setq default-input-method "russian-computer")
+
 (use-package cdlatex
   :ensure t
   :config
