@@ -253,7 +253,7 @@ at the values with which this function was called."
 
   (defadvice! +vc-gutter-define-thin-bitmaps-a (&rest args)
     :override #'diff-hl-define-bitmaps
-    (define-fringe-bitmap 'diff-hl-bmp-middle [224] nil nil '(center repeated))
+    (define-fringe-bitmap 'diff-hl-bmp-middle [128] nil nil '(center repeated))
     (define-fringe-bitmap 'diff-hl-bmp-delete [240 224 192 128] nil nil 'top))
 
   (defun +vc-gutter-type-face-fn (type _pos)
