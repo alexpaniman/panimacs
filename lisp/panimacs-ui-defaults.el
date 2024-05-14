@@ -21,7 +21,7 @@
 
 (defun panimacs/enable-line-numbers ()
   (interactive)
-  (setq-local display-line-numbers 'relative))
+  (setq-local display-line-numbers 'visual))
 
 (add-hook 'prog-mode-hook 'panimacs/enable-line-numbers)
 (add-hook  'org-mode-hook 'panimacs/enable-line-numbers)
