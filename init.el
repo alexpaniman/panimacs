@@ -22,6 +22,8 @@
     (make-directory path :parents)))
 
 (require 'panimacs-packages)
+
+(require 'panimacs-performance)
 (require 'panimacs-zettelkasten)
 
 (use-package no-littering)

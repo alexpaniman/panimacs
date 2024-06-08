@@ -34,9 +34,7 @@
 (use-package good-scroll
   :ensure t
   :init
-  (good-scroll-mode 1)
-  (global-set-key [next] #'good-scroll-up-full-screen)
-  (global-set-key [prior] #'good-scroll-down-full-screen))
+  (good-scroll-mode 1))
 
 
 (use-package helpful
