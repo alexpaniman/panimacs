@@ -70,12 +70,95 @@
 
 
 (use-package ace-window
+  :init (ace-window-display-mode 1)
   :config
   (setq aw-dispatch-always t)
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  (setq aw-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
+  (setq aw-background nil)
+  (setq aw--lead-overlay-fn 'ignore)
 
-(global-set-key (kbd "C-o") 'ace-window)
-(evil-global-set-key 'normal (kbd "C-o") 'ace-window)
+  (defun panimacs/select-window (index)
+    ;; TODO: make sure it always matches with number:
+    (aw-switch-to-window (nth index (aw-window-list))))
+
+  (defvar-keymap panimacs/ace-winum-keymap
+    :doc "Keymap for winum-mode actions."
+    "M-0" (lambda () (interactive) (panimacs/select-window 0))
+    "M-1" (lambda () (interactive) (panimacs/select-window 1))
+    "M-2" (lambda () (interactive) (panimacs/select-window 2))
+    "M-3" (lambda () (interactive) (panimacs/select-window 3))
+    "M-4" (lambda () (interactive) (panimacs/select-window 4))
+    "M-5" (lambda () (interactive) (panimacs/select-window 5))
+    "M-6" (lambda () (interactive) (panimacs/select-window 6))
+    "M-7" (lambda () (interactive) (panimacs/select-window 7))
+    "M-8" (lambda () (interactive) (panimacs/select-window 8))
+    "M-9" (lambda () (interactive) (panimacs/select-window 9))
+    )
+
+  (define-minor-mode panimacs/ace-winum-mode
+    "Switch to windows by pressing M-<number>"
+    :global t :keymap panimacs/ace-winum-keymap)
+
+  (panimacs/ace-winum-mode 1)
+
+  (global-set-key (kbd "C-o") #'ace-window)
+  (evil-global-set-key 'normal (kbd "C-o") #'ace-window)
+  (evil-global-set-key 'motion (kbd "C-o") #'ace-window)
+
+  (defun other-window-mru ()
+    "Select the most recently used window on this frame."
+    (interactive)
+    (when-let ((mru-window
+                (get-mru-window
+                 nil nil 'not-this-one-dummy)))
+      (select-window mru-window)))
+
+  (advice-add 'other-window-mru :before
+              (defun other-window-split-if-single (&rest _)
+                "Split the frame if there is a single window."
+                (when (one-window-p) (split-window-sensibly))))
+
+  (keymap-global-set "M-o" 'other-window-mru)
+  (evil-global-set-key 'normal (kbd "M-o") 'other-window-mru)
+  (evil-global-set-key 'motion (kbd "M-o") 'other-window-mru)
+
+  (defun panimacs/ace-window--wrapped-aw-select (action)
+    (if action
+        (funcall action (selected-window))))
+
+  (defvar panimacs/ace-window--aw-dispatch-alist-current-window
+    (cl-loop for (symbol action description)
+             in aw-dispatch-alist
+             collect
+             (remove
+              nil
+              (list symbol
+                    (if description
+                        `(lambda ()
+                           (panimacs/ace-window--wrapped-aw-select ',action))
+                      action)
+                    (if description (concat description " (current window)") nil)))
+             )
+    )
+
+  (defun panimacs/ace-window-current ()
+    (interactive)
+
+    (let ((aw-dispatch-alist panimacs/ace-window--aw-dispatch-alist-current-window)
+          (aw-dispatch-function
+           (lambda (char)
+             (funcall (cadr
+                       (assoc char panimacs/ace-window--aw-dispatch-alist-current-window))))))
+      (ignore-errors (ace-window 1))
+      )
+    )
+
+  (keymap-global-set "C-S-o" #'panimacs/ace-window-current)
+  (evil-global-set-key 'normal (kbd "C-S-o") #'panimacs/ace-window-current)
+  (evil-global-set-key 'motion (kbd "C-S-o") #'panimacs/ace-window-current)
+  
+)
+
 
 (winner-mode 1)
 
