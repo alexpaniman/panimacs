@@ -30,11 +30,36 @@
 
 (require 'panimacs-packages)
 
-;; By default emacs 
-(use-package good-scroll
-  :ensure t
+;; == Scrolling
+
+(defun panimacs/scroll-up (&optional arg)
+  (interactive)
+  (pixel-scroll-interpolate-up))
+
+(defun panimacs/scroll-down (&optional arg)
+  (interactive)
+  (pixel-scroll-interpolate-down))
+
+(use-package emacs
+  :bind
+  ([remap scroll-up-command]   . panimacs/scroll-up)
+  ([remap scroll-down-command] . panimacs/scroll-down)
+  :custom
+  (pixel-scroll-precision-interpolate-page t)
   :init
-  (good-scroll-mode 1))
+  (pixel-scroll-precision-mode 1)
+  :config
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+  (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+  (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+  (setq scroll-step 1) ;; keyboard scroll one line at a time
+
+  ;; Don't jump & recenter after cursor gets out of the window
+  (setq scroll-conservatively 10000)
+  (setq auto-window-vscroll nil)
+  )
+
+
 
 
 (use-package helpful

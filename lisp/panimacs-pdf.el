@@ -29,7 +29,13 @@
               ("s"  . pdf-occur)
               ("b"  . pdf-view-set-slice-from-bounding-box)
               ("r"  . pdf-view-reset-slice)
-              ([remap image-next-line] . hydra-pdftools/body)))
+              ([remap image-next-line] . hydra-pdftools/body))
+  :config
+  (keymap-set pdf-view-mode-map "<remap> <scroll-up-command>"
+              #'pdf-view-scroll-up-or-next-page)
+  (keymap-set pdf-view-mode-map "<remap> <scroll-down-command>"
+              #'pdf-view-scroll-down-or-previous-page)
+  )
 
 (evil-set-initial-state 'pdf-view-mode 'insert)
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . doc-view-mode))
