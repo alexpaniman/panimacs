@@ -122,6 +122,10 @@
   (evil-global-set-key 'normal (kbd "M-o") 'other-window-mru)
   (evil-global-set-key 'motion (kbd "M-o") 'other-window-mru)
 
+
+  (setq other-window-scroll-default #'get-lru-window)
+
+
   (defun panimacs/ace-window--wrapped-aw-select (action)
     (if action
         (funcall action (selected-window))))
