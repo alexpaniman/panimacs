@@ -22,6 +22,7 @@
     (make-directory path :parents)))
 
 (require 'panimacs-packages)
+(require 'panimacs-lib)
 
 (require 'panimacs-performance)
 (require 'panimacs-zettelkasten)

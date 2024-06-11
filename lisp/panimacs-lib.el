@@ -1,4 +1,9 @@
 ;;; panimacs-lib.el --- panimacs :: general library -*- lexical-binding: t -*-
 
 
-;; Nothing here yet, but I'm sure there will be.
+(defun panimacs/unadvice (sym)
+  "Remove all advices from symbol SYM."
+  (interactive "aFunction symbol: ")
+  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
+
+(provide 'panimacs-lib)
