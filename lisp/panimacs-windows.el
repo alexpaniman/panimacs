@@ -105,6 +105,7 @@
   (evil-global-set-key 'normal (kbd "C-o") #'ace-window)
   (evil-global-set-key 'motion (kbd "C-o") #'ace-window)
 
+
   (defun other-window-mru ()
     "Select the most recently used window on this frame."
     (interactive)
@@ -161,6 +162,17 @@
   (evil-global-set-key 'normal (kbd "C-S-o") #'panimacs/ace-window-current)
   (evil-global-set-key 'motion (kbd "C-S-o") #'panimacs/ace-window-current)
   
+  (defun panimacs/ace-set-other-window ()
+    "Select a window with ace-window and set it as the \"other
+window\" for the current one."
+    (interactive)
+    (when (> (length (ace-window-list)) 1)
+      (when-let* ((win (aw-select " ACE"))
+                  (buf (window-buffer buf)))
+        (setq-local other-window-scroll-buffer buf))
+      )
+    )
+
 )
 
 
