@@ -74,7 +74,7 @@
   :config
   (setq aw-dispatch-always t)
   (setq aw-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
-  (setq aw-background nil)
+  (setq aw-background t)
   (setq aw--lead-overlay-fn 'ignore)
 
   (defun panimacs/select-window (index)
