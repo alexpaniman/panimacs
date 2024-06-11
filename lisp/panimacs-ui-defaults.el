@@ -75,9 +75,6 @@
   (evil-define-key 'insert helpful-mode-map (kbd "q") #'quit-window)
   )
 
-(use-package popwin
-  :config (popwin-mode 1))
-
 (use-package which-key
   :init (which-key-mode)
   :config
