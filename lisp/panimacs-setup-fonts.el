@@ -18,25 +18,29 @@
 (defun panimacs/init-fonts--apply-defaults (font-name)
   (font-spec :family font-name :size panimacs/font-size))
 
+(defun panimacs/default-font-alist ()
+  `((default           . ,panimacs/font               )
+    (fixed-pitch       . ,panimacs/font               )
+    (fixed-pitch-serif . ,panimacs/serif-font         )
+    (variable-pitch    . ,panimacs/variable-pitch-font)))
+
 (defun panimacs/init-fonts ()
   (when (null panimacs/font-size)
     (setq panimacs/font-size panimacs/default-font-size))
 
-  (dolist (map `((default           . ,panimacs/font               )
-		 (fixed-pitch       . ,panimacs/font               )
-		 (fixed-pitch-serif . ,panimacs/serif-font         )
-		 (variable-pitch    . ,panimacs/variable-pitch-font)))
-
+  (dolist (map (panimacs/default-font-alist))
     (when-let* ((face (car map)) (font-name (cdr map)))
-      (dolist (frame (frame-list))
-	(when (display-multi-font-p frame)
-	  (set-face-attribute face frame
-	   :width 'normal :weight 'normal :slant 'normal
-	   :font (panimacs/init-fonts--apply-defaults font-name))))))
+      (set-face-attribute
+       face nil :width 'normal :weight 'normal :slant 'normal
+       :font (panimacs/init-fonts--apply-defaults font-name))
+      )
+    )
 
   (when (and (fboundp 'set-fontset-font)  panimacs/unicode-font)
     (set-fontset-font t 'unicode
-     (panimacs/init-fonts--apply-defaults panimacs/unicode-font))))
+     (panimacs/init-fonts--apply-defaults panimacs/unicode-font)))
+  )
+
 
 
 (defun panimacs/adjust-font-size (delta)
@@ -60,8 +64,9 @@
 
 
 (global-set-key (kbd "C-M-=") #'panimacs/increase-font-size)
+(global-set-key (kbd "C-M-+") #'panimacs/increase-font-size)
 (global-set-key (kbd "C-M--") #'panimacs/decrease-font-size)
-(global-set-key (kbd "C-M-0") #'panimacs/restore-font-size)
+(global-set-key (kbd "C-M-0") #'panimacs/restore-font-size )
 
 
 (let ((hook (if (daemonp) 'server-after-make-frame-hook 'after-init-hook)))
