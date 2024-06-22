@@ -87,7 +87,7 @@
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :custom    
-  (doom-modeline-height 20)
+  (doom-modeline-height 0) ;; TODO: What to do here?
   (doom-modeline-bar-width 1)
   (doom-modeline-icon t)
   (doom-modeline-major-mode-icon t)
