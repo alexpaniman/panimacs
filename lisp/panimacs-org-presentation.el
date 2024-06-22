@@ -108,4 +108,14 @@ It does a few things:
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-c p") #'panimacs/org-presentation-mode))
 
+
+(define-globalized-minor-mode panimacs/global-org-presentation-mode
+  panimacs/org-presentation-mode panimacs/org-presentation-mode--on)
+
+(defun panimacs/org-presentation-mode--on ()
+  "Enable `panimacs/org-presentation-mode' in every Org buffer."
+  (when (derived-mode-p #'org-mode)
+    (panimacs/org-presentation-mode)))
+
+
 (provide 'panimacs-org-presentation)
