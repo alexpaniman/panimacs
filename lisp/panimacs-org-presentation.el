@@ -17,8 +17,8 @@
 (make-variable-buffer-local 'panimacs/org-presentation-mode-headline-cookies)
 
 
-(defvar panimacs/org-presentation-mode-display-line-number-type-status nil) 
-(make-variable-buffer-local 'panimacs/org-presentation-mode-display-line-number-type-status)
+(defvar panimacs/org-presentation-mode-display-line-numbers-status nil) 
+(make-variable-buffer-local 'panimacs/org-presentation-mode-display-line-numbers-status)
 
 (defvar panimacs/org-presentation-mode-org-modern-status nil) 
 (make-variable-buffer-local 'panimacs/org-presentation-mode-org-modern-status)
@@ -50,14 +50,23 @@ It does a few things:
                           (push (apply #'face-remap-add-relative face specs)
                                 panimacs/org-presentation-mode-headline-cookies))))
 
-        (setq panimacs/org-presentation-mode-display-line-number-type-status display-line-numbers-type
-              panimacs/org-presentation-mode-org-modern-status org-modern-mode
-              panimacs/org-presentation-mode-org-superstar-status org-superstar-mode
-              panimacs/org-presentation-mode-org-indent-mode-status org-indent-mode)
+        (setq panimacs/org-presentation-mode-display-line-numbers-status display-line-numbers)
 
+        ;; Save currently set org's appearance to be restored if this minor mode is disabled 
+
+        (setq panimacs/org-presentation-mode-org-modern-status     
+              (and (boundp 'org-modern-mode) org-modern-mode))
+
+        (setq panimacs/org-presentation-mode-org-superstar-status
+              (and (boundp 'org-superstar-mode) org-superstar-mode))
+
+        (setq panimacs/org-presentation-mode-org-indent-mode-status
+              (and (boundp 'org-indent-mode) org-indent-mode))
+
+        ;; Makes use of the fringe to visually indent nested headings in Org
         (org-indent-mode 1)
-        (display-line-numbers-mode 0)
 
+        ;; This two modes provide some visual prettifications like bullets and tags
         (org-modern-mode 1) (org-superstar-mode 1)
 
         (mapc (lambda (face)
@@ -74,8 +83,7 @@ It does a few things:
               (list 'org-modern-tag 'org-modern-todo 'org-modern-done))
         )
 
-    (setq display-line-numbers-type panimacs/org-presentation-mode-display-line-number-type-status)
-    (display-line-numbers-mode (if panimacs/org-presentation-mode-display-line-number-type-status 1 0))
+    (setq display-line-numbers panimacs/org-presentation-mode-display-line-numbers-status)
 
     (org-modern-mode (if panimacs/org-presentation-mode-org-modern-status 1 0))
     (org-superstar-mode (if panimacs/org-presentation-mode-org-superstar-status 1 0))
