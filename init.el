@@ -31,9 +31,9 @@
 (require 'no-littering)
 
 ;; ======================= GUI DEFAULTS =======================
-(setq panimacs/font                "JetBrains Mono"
+(setq panimacs/font                "Fira Code"
       panimacs/variable-pitch-font "Fira Sans"
-      panimacs/serif-font          "Iosevka Comfy Motion"
+      panimacs/serif-font          "Fira Code"
       panimacs/unicode-font        "Noto Color Emoji"
 
       panimacs/default-font-size   20
