@@ -5,7 +5,7 @@
   (setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸")
         org-superstar-prettify-item-bullets nil))
 
-(use-package org-modern-tag
+(use-package org-modern
   :config
   (setq org-modern-star nil)
 
