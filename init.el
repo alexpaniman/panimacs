@@ -83,6 +83,8 @@
 (require 'panimacs-conspects)
 (require 'panimacs-org-presentation)
 
+(require 'panimacs-llm)
+
 (require 'panimacs-pdf)
 
 
