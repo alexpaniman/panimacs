@@ -53,7 +53,7 @@ It does a few things:
         (setq panimacs/org-presentation-mode-display-line-number-type-status display-line-numbers-type
               panimacs/org-presentation-mode-org-modern-status org-modern-mode
               panimacs/org-presentation-mode-org-superstar-status org-superstar-mode
-              panimacs/org-presentation-mode-org-indent-mode org-indent-mode)
+              panimacs/org-presentation-mode-org-indent-mode-status org-indent-mode)
 
         (org-indent-mode 1)
         (display-line-numbers-mode 0)
@@ -80,7 +80,7 @@ It does a few things:
     (org-modern-mode (if panimacs/org-presentation-mode-org-modern-status 1 0))
     (org-superstar-mode (if panimacs/org-presentation-mode-org-superstar-status 1 0))
 
-    (org-indent-mode (if panimacs/org-presentation-mode-org-indent-mode 1 0))
+    (org-indent-mode (if panimacs/org-presentation-mode-org-indent-mode-status 1 0))
 
     (mapc #'face-remap-remove-relative panimacs/org-presentation-mode-headline-cookies)
     (setq panimacs/org-presentation-mode-headline-cookies nil))
