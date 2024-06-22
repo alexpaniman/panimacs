@@ -13,21 +13,24 @@
   (setq org-modern-block-name '("‣" . "‣"))
   )
 
-(defvar panimacs/org-presentation-mode-headline-cookies nil) 
+(defvar panimacs/org-presentation-mode-headline-cookies nil)
 (make-variable-buffer-local 'panimacs/org-presentation-mode-headline-cookies)
 
 
-(defvar panimacs/org-presentation-mode-display-line-numbers-status nil) 
-(make-variable-buffer-local 'panimacs/org-presentation-mode-display-line-numbers-status)
+(defvar panimacs/org-presentation-mode--display-line-numbers-mode-status nil)
+(make-variable-buffer-local 'panimacs/org-presentation-mode--display-line-numbers-mode-status)
 
-(defvar panimacs/org-presentation-mode-org-modern-status nil) 
-(make-variable-buffer-local 'panimacs/org-presentation-mode-org-modern-status)
+(defvar panimacs/org-presentation-mode--org-modern-status nil)
+(make-variable-buffer-local 'panimacs/org-presentation-mode--org-modern-status)
 
-(defvar panimacs/org-presentation-mode-org-superstar-status nil) 
-(make-variable-buffer-local 'panimacs/org-presentation-mode-org-superstar-status)
+(defvar panimacs/org-presentation-mode--org-superstar-status nil)
+(make-variable-buffer-local 'panimacs/org-presentation-mode--org-superstar-status)
 
-(defvar panimacs/org-presentation-mode-org-indent-mode-status nil) 
-(make-variable-buffer-local 'panimacs/org-presentation-mode-org-indent-mode-status)
+(defvar panimacs/org-presentation-mode--org-indent-mode-status nil)
+(make-variable-buffer-local 'panimacs/org-presentation-mode--org-indent-mode-status)
+
+
+(defvar panimacs/org-presentation-mode-hide-line-numbers t)
 
 
 (defvar panimacs/org-presentation-title-scale-factor 4.235)
@@ -50,18 +53,24 @@ It does a few things:
                           (push (apply #'face-remap-add-relative face specs)
                                 panimacs/org-presentation-mode-headline-cookies))))
 
-        (setq panimacs/org-presentation-mode-display-line-numbers-status display-line-numbers)
+        (setq panimacs/org-presentation-mode--display-line-numbers-mode-status
+              (or display-line-numbers
+                  (and (boundp 'display-line-numbers-mode) display-line-numbers-mode)))
 
-        ;; Save currently set org's appearance to be restored if this minor mode is disabled 
+        ;; Save currently set org's appearance to be restored if this minor mode is disabled
 
-        (setq panimacs/org-presentation-mode-org-modern-status     
+        (setq panimacs/org-presentation-mode--org-modern-status
               (and (boundp 'org-modern-mode) org-modern-mode))
 
-        (setq panimacs/org-presentation-mode-org-superstar-status
+        (setq panimacs/org-presentation-mode--org-superstar-status
               (and (boundp 'org-superstar-mode) org-superstar-mode))
 
-        (setq panimacs/org-presentation-mode-org-indent-mode-status
+        (setq panimacs/org-presentation-mode--org-indent-mode-status
               (and (boundp 'org-indent-mode) org-indent-mode))
+
+        ;; It's cleaner to hide line numbers, but it's configurable:
+        (when panimacs/org-presentation-mode-hide-line-numbers
+          (display-line-numbers-mode 0))
 
         ;; Makes use of the fringe to visually indent nested headings in Org
         (org-indent-mode 1)
@@ -74,7 +83,7 @@ It does a few things:
                          :height panimacs/org-presentation-headings-scale-factor))
               org-level-faces)
 
-        (funcall remap-face 'org-document-title :inherit 'variable-pitch :weight 'bold 
+        (funcall remap-face 'org-document-title :inherit 'variable-pitch :weight 'bold
                  :height panimacs/org-presentation-title-scale-factor)
 
         (mapc (lambda (face)
@@ -83,12 +92,13 @@ It does a few things:
               (list 'org-modern-tag 'org-modern-todo 'org-modern-done))
         )
 
-    (setq display-line-numbers panimacs/org-presentation-mode-display-line-numbers-status)
+    (when panimacs/org-presentation-mode-hide-line-numbers
+      (display-line-numbers-mode (if panimacs/org-presentation-mode--display-line-numbers-mode-status 1 0)))
 
-    (org-modern-mode (if panimacs/org-presentation-mode-org-modern-status 1 0))
-    (org-superstar-mode (if panimacs/org-presentation-mode-org-superstar-status 1 0))
+    (org-modern-mode (if panimacs/org-presentation-mode--org-modern-status 1 0))
+    (org-superstar-mode (if panimacs/org-presentation-mode--org-superstar-status 1 0))
 
-    (org-indent-mode (if panimacs/org-presentation-mode-org-indent-mode-status 1 0))
+    (org-indent-mode (if panimacs/org-presentation-mode--org-indent-mode-status 1 0))
 
     (mapc #'face-remap-remove-relative panimacs/org-presentation-mode-headline-cookies)
     (setq panimacs/org-presentation-mode-headline-cookies nil))
