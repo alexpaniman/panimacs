@@ -81,6 +81,8 @@
 
 
 (require 'panimacs-conspects)
+(require 'panimacs-org-presentation)
+
 (require 'panimacs-pdf)
 
 

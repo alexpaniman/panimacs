@@ -224,7 +224,22 @@
 
 (use-package org
   :config
-  (setq org-hide-leading-stars t)
+  (setq org-hide-leading-stars t
+
+        org-auto-align-tags t
+        org-tags-column 50
+        org-catch-invisible-edits 'show-and-error
+        org-insert-heading-respect-content t
+
+        ;; Org styling, hide markup etc.
+        org-hide-emphasis-markers t
+        org-pretty-entities t
+
+        org-ellipsis "…"
+   )
+
+  (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
+
   :bind
   (:map org-mode-map
         ("C-c C-a" . #'org-latex-export-to-pdf)))
