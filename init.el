@@ -82,6 +82,7 @@
 
 (require 'panimacs-conspects)
 (require 'panimacs-org-presentation)
+(panimacs/global-org-presentation-mode 1)
 
 (require 'panimacs-llm)
 
