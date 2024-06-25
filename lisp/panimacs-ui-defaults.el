@@ -160,10 +160,6 @@ Saves to a temp file and puts the filename in the kill ring."
 (use-package keycast)
 
 
-(use-package page-break-lines
-  :init
-  (global-page-break-lines-mode))
-
 
 
 
