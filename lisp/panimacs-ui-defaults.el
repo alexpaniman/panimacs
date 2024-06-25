@@ -160,7 +160,8 @@ Saves to a temp file and puts the filename in the kill ring."
 (use-package keycast)
 
 
-
+(use-package form-feed
+  :init (global-form-feed-mode 1))
 
 
 (provide 'panimacs-ui-defaults)
