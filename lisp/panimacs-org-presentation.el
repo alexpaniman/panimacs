@@ -49,12 +49,12 @@ It does a few things:
 
         (setq panimacs/org-presentation-mode--display-line-numbers-mode-status
               (or display-line-numbers
-                  (bound-and-true-p 'display-line-numbers-mode)))
+                  (bound-and-true-p display-line-numbers-mode)))
 
         ;; Save currently set org's appearance to be restored if this minor mode is disabled:
-        (setq panimacs/org-presentation-mode--org-modern-status (bound-and-true-p 'org-modern-mode))
+        (setq panimacs/org-presentation-mode--org-modern-status (bound-and-true-p org-modern-mode))
         (setq panimacs/org-presentation-mode--org-indent-mode-status
-              (bound-and-true-p 'org-indent-mode))
+              (bound-and-true-p org-indent-mode))
 
         ;; It's cleaner to hide line numbers, but it's configurable:
         (when panimacs/org-presentation-mode-hide-line-numbers
