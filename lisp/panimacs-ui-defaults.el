@@ -15,6 +15,11 @@
 	(menu-bar-lines        .   0))
       )
 
+
+(setq use-dialog-box nil)
+(when (bound-and-true-p tooltip-mode)
+  (tooltip-mode -1))
+
 ;; Very important, disable insanely annoying bell sound!
 (setq ring-bell-function 'ignore)
 
