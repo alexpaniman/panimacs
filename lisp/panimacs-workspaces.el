@@ -31,7 +31,6 @@ print(\"Welcome to the *scratch* buffer!\")
   :config
   (setq persp-init-new-frame-behaviour-override (lambda (&rest args)))
 
-  (setq initial-buffer-choice (lambda (&rest args) "*scratch*"))
   (setq initial-major-mode 'org-mode)
   (setq initial-scratch-message panimacs/initial-scratch-message)
   )
