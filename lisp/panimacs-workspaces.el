@@ -33,6 +33,8 @@ print(\"Welcome to the *scratch* buffer!\")
 
   (setq initial-major-mode 'org-mode)
   (setq initial-scratch-message panimacs/initial-scratch-message)
+
+  (setq persp-auto-resume-time -1.0)
   )
 
 (provide 'panimacs-workspaces)
