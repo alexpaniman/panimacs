@@ -246,6 +246,12 @@
 
 (require 'org-tempo)
 
+(add-hook 'org-mode-hook (lambda () (auto-fill-mode +1)))
+
+;; Since I use big screens, I believe that default 70 columns is not enough:
+(setq-default fill-column 100)
+
+
 (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1)))
 
 (provide 'panimacs-conspects)
