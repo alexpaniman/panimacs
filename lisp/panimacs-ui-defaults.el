@@ -16,6 +16,11 @@
       )
 
 
+
+
+(setq frame-resize-pixelwise t
+      window-resize-pixelwise t)
+
 (setq use-dialog-box nil)
 (when (bound-and-true-p tooltip-mode)
   (tooltip-mode -1))
