@@ -79,11 +79,11 @@ It does a few things:
         (org-modern-mode 1) (org-superstar-mode 1)
 
         (mapc (lambda (face)
-                (funcall remap-face face :inherit 'variable-pitch :weight 'bold
+                (funcall remap-face face :inherit 'variable-pitch :weight 'regular
                          :height panimacs/org-presentation-headings-scale-factor))
               org-level-faces)
 
-        (funcall remap-face 'org-document-title :inherit 'variable-pitch :weight 'bold
+        (funcall remap-face 'org-document-title :inherit 'variable-pitch :weight 'regular
                  :height panimacs/org-presentation-title-scale-factor)
 
         (mapc (lambda (face)
