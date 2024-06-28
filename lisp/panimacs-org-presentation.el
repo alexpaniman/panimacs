@@ -1,13 +1,11 @@
 (require 'panimacs-packages)
 
-(use-package org-superstar
-  :config
-  (setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸")
-        org-superstar-prettify-item-bullets nil))
-
 (use-package org-modern
   :config
-  (setq org-modern-star nil)
+  (setq org-modern-star 'replace)
+
+  ;; Can't decide between these two: ...
+  (setq org-modern-replace-stars "⁖◉○◉○◉○◉○")
 
   (setq org-modern-block-fringe 0)
   (setq org-modern-block-name '("‣" . "‣"))
@@ -22,9 +20,6 @@
 
 (defvar panimacs/org-presentation-mode--org-modern-status nil)
 (make-variable-buffer-local 'panimacs/org-presentation-mode--org-modern-status)
-
-(defvar panimacs/org-presentation-mode--org-superstar-status nil)
-(make-variable-buffer-local 'panimacs/org-presentation-mode--org-superstar-status)
 
 (defvar panimacs/org-presentation-mode--org-indent-mode-status nil)
 (make-variable-buffer-local 'panimacs/org-presentation-mode--org-indent-mode-status)
@@ -44,7 +39,6 @@
 
 It does a few things:
 1. Makes org headings bigger (thus making them more legible)
-2. Enables org-superstar mode on headings
 3. Enables parts of minad's org-modern
 4. Disables line numbers"
   :lighter nil
@@ -55,18 +49,12 @@ It does a few things:
 
         (setq panimacs/org-presentation-mode--display-line-numbers-mode-status
               (or display-line-numbers
-                  (and (boundp 'display-line-numbers-mode) display-line-numbers-mode)))
+                  (bound-and-true-p 'display-line-numbers-mode)))
 
-        ;; Save currently set org's appearance to be restored if this minor mode is disabled
-
-        (setq panimacs/org-presentation-mode--org-modern-status
-              (and (boundp 'org-modern-mode) org-modern-mode))
-
-        (setq panimacs/org-presentation-mode--org-superstar-status
-              (and (boundp 'org-superstar-mode) org-superstar-mode))
-
+        ;; Save currently set org's appearance to be restored if this minor mode is disabled:
+        (setq panimacs/org-presentation-mode--org-modern-status (bound-and-true-p 'org-modern-mode))
         (setq panimacs/org-presentation-mode--org-indent-mode-status
-              (and (boundp 'org-indent-mode) org-indent-mode))
+              (bound-and-true-p 'org-indent-mode))
 
         ;; It's cleaner to hide line numbers, but it's configurable:
         (when panimacs/org-presentation-mode-hide-line-numbers
@@ -76,7 +64,7 @@ It does a few things:
         (org-indent-mode 1)
 
         ;; This two modes provide some visual prettifications like bullets and tags
-        (org-modern-mode 1) (org-superstar-mode 1)
+        (org-modern-mode 1)
 
         (mapc (lambda (face)
                 (funcall remap-face face :inherit 'variable-pitch :weight 'regular
@@ -96,8 +84,6 @@ It does a few things:
       (display-line-numbers-mode (if panimacs/org-presentation-mode--display-line-numbers-mode-status 1 0)))
 
     (org-modern-mode (if panimacs/org-presentation-mode--org-modern-status 1 0))
-    (org-superstar-mode (if panimacs/org-presentation-mode--org-superstar-status 1 0))
-
     (org-indent-mode (if panimacs/org-presentation-mode--org-indent-mode-status 1 0))
 
     (mapc #'face-remap-remove-relative panimacs/org-presentation-mode-headline-cookies)
