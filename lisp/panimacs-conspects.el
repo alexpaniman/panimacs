@@ -207,6 +207,8 @@
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
 
+(setq org-return-follows-link t)
+
 
 (define-key org-mode-map (kbd "C-c C-a") #'org-latex-export-to-pdf)
 
