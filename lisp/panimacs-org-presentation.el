@@ -93,7 +93,7 @@ It does a few things:
 
 
 (with-eval-after-load 'org
-  (define-key org-mode-map (kbd "C-c p") #'panimacs/org-presentation-mode))
+  (define-key org-mode-map (kbd "C-c P") #'panimacs/org-presentation-mode))
 
 
 (define-globalized-minor-mode panimacs/global-org-presentation-mode
