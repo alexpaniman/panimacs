@@ -17,6 +17,12 @@
 	)
 
   :config (evil-mode 1)
+  :bind (:map evil-motion-state-map
+              ("SPC" . nil)
+              ("RET" . nil)
+              ("TAB" . nil)
+
+         )
   )
 
 (use-package evil-collection
@@ -51,5 +57,12 @@
 
 ;; (setq whitespace-display-mappings
 ;;   '((tab-mark 9 [124 9] [92 9])))
+
+
+(use-package org-evil
+  :config
+  (add-hook 'org-mode-hook (lambda ()
+                             (org-evil-mode +1)))
+  )
 
 (global-set-key (kbd "C-x W") 'whitespace-mode)
