@@ -5,7 +5,8 @@
   (setq org-modern-star 'replace)
 
   ;; Can't decide between these two: ...
-  (setq org-modern-replace-stars "⁖◉○◉○◉○◉○")
+  ;; (setq org-modern-replace-stars "⁖◉○◉○◉○◉○")
+  (setq org-modern-replace-stars "◉○◉○◉○◉○")
 
   (setq org-modern-block-fringe 0)
   (setq org-modern-block-name '("‣" . "‣"))
