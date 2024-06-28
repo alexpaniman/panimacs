@@ -25,6 +25,14 @@
 (when (bound-and-true-p tooltip-mode)
   (tooltip-mode -1))
 
+
+;; Explicitly define a width to reduce the cost of on-the-fly computation
+(setq-default display-line-numbers-width 3)
+
+;; Show absolute line numbers for narrowed regions to make it easier to tell the
+;; buffer is narrowed, and where you are, exactly.
+(setq-default display-line-numbers-widen t)
+
 ;; Very important, disable insanely annoying bell sound!
 (setq ring-bell-function 'ignore)
 
