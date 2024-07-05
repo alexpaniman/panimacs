@@ -89,7 +89,7 @@
 (require 'panimacs-pdf)
 
 (require 'panimacs-workspaces)
-(provide 'panimacs-debugger)
+(require 'panimacs-debugger)
 
 
 (custom-set-variables
