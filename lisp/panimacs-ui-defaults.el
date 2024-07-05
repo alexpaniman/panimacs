@@ -159,6 +159,30 @@ otherwise it functions just as regular save-buffer does."
   (panimacs/close-on-save-mode)
   (evil-append 1))
 
+(defun panimacs/xdg-open (file)
+  "Open FILE to edit in a running emacs daemon in a separate workspace.
+Meant to be called to xdg-open program."
+  (interactive)
+  (when (bound-and-true-p persp-mode)
+    (let ((xdg-open-frame-exists nil))
+      (dolist (frame (frame-list))
+        (when (and (frame-live-p frame) (frame-visible-p frame))
+          (let ((frame-persp (get-frame-persp frame)))
+            (when (and frame-persp (string= (persp-name frame-persp) "xdg-open"))
+              (select-frame-set-input-focus frame)
+              (setq xdg-open-frame-exists t))))
+        )
+      (unless xdg-open-frame-exists
+        (select-frame-set-input-focus (make-frame '((display . ":0"))))
+        (persp-switch "xdg-open")
+        )
+      )
+    )
+  (let ((opened-buffer (find-file file)))
+    (persp-add-buffer opened-buffer)
+    )
+  )
+
 
 ;; TODO: move this
 (defun screenshot-svg ()
