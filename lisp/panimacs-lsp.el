@@ -65,7 +65,7 @@
  :if (treesit-language-available-p 'c)
  :custom
  (c-ts-mode-indent-offset 4)
- (c-ts-mode-indent-style #'my-indent-style)
+ (c-ts-mode-indent-style 'gnu)
  :init
  ;; Remap the standard C/C++ modes
  (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
