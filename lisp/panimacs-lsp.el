@@ -362,4 +362,16 @@ means save all with no questions."
 (org-babel-do-load-languages
  'org-babel-load-languages '((C . t)))
 
+
+
+(defun panimacs/compile-project-advice-no-project (old-function)
+  "Advice for project-compile that invokes compile
+when there's no active project."
+
+  (condition-case nil (funcall old-function)
+    (error (call-interactively #'compile)))
+  )
+
+(advice-add 'project-compile :around #'panimacs/compile-project-advice-no-project)
+
 (provide 'panimacs-lsp)
