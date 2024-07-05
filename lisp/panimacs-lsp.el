@@ -11,15 +11,6 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
 
-(use-package corfu
-  :demand t
-  :custom ((corfu-auto        t)
-	   (corfu-auto-delay  0)
-	   (corfu-auto-prefix 2)
-	   (corfu-quit-no-match 'separator)
-	   (completion-styles '(orderless basic)))
-  :init (global-corfu-mode))
-
 (use-package yasnippet
   :diminish yas-minor-mode
   :hook (prog-mode . yas-minor-mode)
@@ -31,17 +22,6 @@
 
 (add-to-list 'auto-mode-alist
              '("\\.ts\\'" . typescript-ts-mode))
-
-(use-package kind-icon
-  :ensure t
-  :after corfu
-  :custom (
-  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  (kind-icon-default-style
-   '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.5 :scale 1)))
-
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package cc-mode
   :config
@@ -281,19 +261,8 @@ at the values with which this function was called."
 
 
 (use-package python-mode
- :init
- (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
-
-(use-package eglot
-  :custom
-  ((read-process-output-max (* 1024 1024)))
-
-  :hook ((       c-ts-mode . eglot-ensure)
-         (     c++-ts-mode . eglot-ensure)
-         (c-or-c++-ts-mode . eglot-ensure)
-
-         (  python-ts-mode . eglot-ensure))
-  :commands (eglot eglot-ensure))
+  :init
+  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
 
 ;; Make eglot correctly detect project root in some cases:
 
@@ -352,7 +321,7 @@ means save all with no questions."
 		(lambda () (memq (current-buffer) project-buffers))))
           (funcall fn edit-command))
       (funcall fn edit-command)))
-)
+  )
 
 
 ;; (use-package lsp-mode
