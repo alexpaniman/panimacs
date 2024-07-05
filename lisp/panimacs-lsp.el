@@ -73,6 +73,9 @@
  (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode))
  )
 
+(use-package aggressive-indent)
+(global-aggressive-indent-mode)
+
 
 (use-package haskell-mode)
 
