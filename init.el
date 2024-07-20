@@ -93,6 +93,7 @@
 
 
 (require 'panimacs-eglot)
+(require 'panimacs-lisp)
 
 
 (custom-set-variables
