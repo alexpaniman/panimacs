@@ -42,8 +42,8 @@
   :config
   (global-evil-surround-mode 1))
 
-(use-package evil-tex
-  :ensure t)
+;; (use-package evil-tex
+;;   :ensure t)
 
 (add-hook 'LaTeX-mode-hook #'evil-tex-mode)
 (add-hook 'org-mode-hook #'evil-tex-mode)
@@ -59,10 +59,10 @@
 ;;   '((tab-mark 9 [124 9] [92 9])))
 
 
-(use-package org-evil
-  :config
-  (add-hook 'org-mode-hook (lambda ()
-                             (org-evil-mode +1)))
-  )
+;;(use-package org-evil
+;;  :config
+;;  (add-hook 'org-mode-hook (lambda ()
+;;                             (org-evil-mode +1)))
+;;  )
 
 (global-set-key (kbd "C-x W") 'whitespace-mode)
