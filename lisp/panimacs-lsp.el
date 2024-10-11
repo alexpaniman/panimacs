@@ -1,7 +1,20 @@
 ;;; panimacs-lsp.el --- panimacs :: completions and fuzzy matching -*- lexical-binding: t -*-
 
+(add-hook 'prog-mode-hook (lambda () (toggle-truncate-lines +1)))
 
 (require 'panimacs-packages)
+
+(use-package projectile
+  :bind
+  ("C-x p f" . projectile-find-file)
+  ("C-x p r" . projectile-ripgrep)
+  ("C-x p d" . projectile-find-dir)
+  ("C-x p v" . projectile-run-vterm)
+  ("C-x p c" . projectile-compile-project)
+  ("C-x p o" . projectile-find-other-file)
+)
+
+(use-package ripgrep)
 
 
 (use-package orderless
@@ -22,6 +35,12 @@
 
 (add-to-list 'auto-mode-alist
              '("\\.ts\\'" . typescript-ts-mode))
+
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+
+(use-package dockerfile-mode)
 
 (use-package cc-mode
   :config
@@ -125,7 +144,7 @@
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
   (setq vterm-kill-buffer-on-exit t)
-  (setq vterm-tramp-shells '(("ssh" "/bin/zsh") ("scp" "/bin/zsh") ("su" "/bin/zsh") ("docker" "/bin/sh")))
+  (setq vterm-tramp-shells '(("ssh" "/usr/bin/zsh") ("scp" "/usr/bin/zsh") ("su" "/usr/bin/zsh") ("docker" "/bin/sh")))
 
   ;; 50000 lines of scrollback, instead of 1000
   (setq vterm-max-scrollback 50000))
@@ -171,10 +190,10 @@ shell exits, the buffer is killed."
 (use-package multi-vterm
 	:config
 	(setq vterm-keymap-exceptions nil)
-	(global-set-key            (kbd "M-RET")      #'multi-vterm)
+	(global-set-key            (kbd "C-x v v")    #'multi-vterm)
         (global-set-key            (kbd "C-x p RET")  #'multi-vterm-project)
         (global-set-key            (kbd "C-'")        #'multi-vterm-dedicated-toggle)
-	(define-key vterm-mode-map (kbd "M-RET")      #'multi-vterm)
+	(define-key vterm-mode-map (kbd "C-x v v")    #'multi-vterm)
 	(define-key vterm-mode-map (kbd "M-TAB")      #'multi-vterm-next)
 	(define-key vterm-mode-map (kbd "M-S-TAB")    #'multi-vterm-prev))
 
@@ -376,5 +395,19 @@ when there's no active project."
   )
 
 (advice-add 'project-compile :around #'panimacs/compile-project-advice-no-project)
+
+
+
+;; Eshell
+
+(with-eval-after-load 'corfu
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (setq-local corfu-auto nil)
+              (corfu-mode)))
+
+  )
+
+
 
 (provide 'panimacs-lsp)

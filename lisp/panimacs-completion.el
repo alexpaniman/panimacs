@@ -136,6 +136,8 @@
          ("M-s L" . consult-line-multi)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
+
+	 ("C-x y" . consult-yank-from-kill-ring)
          ;; Isearch integration
          ("M-s e" . consult-isearch-history)
          :map isearch-mode-map
@@ -220,6 +222,7 @@
 
   :bind
   (("C-;" . embark-act)         ;; pick some comfortable binding
+   ("M-'" . embark-act)
    ("C-." . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)  ;; alternative for `describe-bindings'
 

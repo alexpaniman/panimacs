@@ -34,7 +34,7 @@
       (set-window-buffer win-source (or (gdb-get-source-buffer) (list-buffers-noselect)))
       (setq gdb-source-window-list (list win-source))
 
-      (gdb-set-window-buffer (gdb-get-buffer-create 'gdb-inferior-io) nil win-io)
+      ;; (gdb-set-window-buffer (gdb-get-buffer-create 'gdb-inferior-io) nil win-io)
       (gdb-set-window-buffer (gdb-stack-buffer-name) nil win-frames)
 
       (select-window win-source)

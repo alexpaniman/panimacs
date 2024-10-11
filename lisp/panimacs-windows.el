@@ -104,6 +104,7 @@
   (global-set-key (kbd "C-o") #'ace-window)
   (evil-global-set-key 'normal (kbd "C-o") #'ace-window)
   (evil-global-set-key 'motion (kbd "C-o") #'ace-window)
+  (define-key vterm-mode-map (kbd "C-o") #'ace-window)
 
 
   (defun other-window-mru ()

@@ -45,6 +45,9 @@
   (define-key vundo-mode-map (kbd "q"	   ) #'vundo-quit     )
   (define-key vundo-mode-map (kbd "C-g"	   ) #'vundo-quit     )
   (define-key vundo-mode-map (kbd "RET"	   ) #'vundo-confirm  )
+
+  (evil-global-set-key 'normal (kbd "C-x u") #'vundo)
+  (global-set-key (kbd "C-x u") #'vundo)
   )
 
 

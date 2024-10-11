@@ -22,16 +22,18 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   )
 
-(use-package eglot
-  :custom
-  ((read-process-output-max (* 1024 1024)))
-
-  :hook ((       c-ts-mode . eglot-ensure)
-         (     c++-ts-mode . eglot-ensure)
-         (c-or-c++-ts-mode . eglot-ensure)
-
-         (  python-ts-mode . eglot-ensure))
-  :commands (eglot eglot-ensure))
+;;(use-package eglot
+;;  :custom
+;;  ((read-process-output-max (* 1024 1024)))
+;;
+;;  :hook ((       c-ts-mode . eglot-ensure)
+;;         (     c++-ts-mode . eglot-ensure)
+;;         (c-or-c++-ts-mode . eglot-ensure)
+;;
+;;         (  python-ts-mode . eglot-ensure))
+;;  :commands (eglot eglot-ensure)
+;;  :config
+;;  (set-face-attribute 'eglot-highlight-symbol-face nil :inherit 'lazy-highlight))
 
 (setq flymake-indicator-type 'fringes)
 

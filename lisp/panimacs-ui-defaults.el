@@ -4,6 +4,8 @@
       inhibit-startup-screen    t
       inhibit-startup-message   t
 
+      resize-mini-windows       nil
+
       use-short-answers         t
 
       default-frame-alist
@@ -75,7 +77,7 @@
   (setq scroll-step 1) ;; keyboard scroll one line at a time
 
   ;; Don't jump & recenter after cursor gets out of the window
-  (setq scroll-conservatively 10000)
+  (setq scroll-conservatively 30)
   (setq auto-window-vscroll nil)
   )
 
