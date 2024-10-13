@@ -45,8 +45,8 @@
 ;; (use-package evil-tex
 ;;   :ensure t)
 
-(add-hook 'LaTeX-mode-hook #'evil-tex-mode)
-(add-hook 'org-mode-hook #'evil-tex-mode)
+;; (add-hook 'LaTeX-mode-hook #'evil-tex-mode)
+;; (add-hook 'org-mode-hook #'evil-tex-mode)
 
 
 (global-set-key (kbd "C-x :") 'eval-expression)
