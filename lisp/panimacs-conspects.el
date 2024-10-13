@@ -2,6 +2,7 @@
 
 (setq default-input-method "russian-computer")
 
+(use-package auctex)
 (use-package cdlatex
   :ensure t
   :config
