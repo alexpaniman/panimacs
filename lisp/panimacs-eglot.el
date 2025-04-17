@@ -40,7 +40,9 @@
 ;; Pasted from eglot-booster.el:
 
 
-;; (require 'eglot)
+(load "project.elc")
+(load "xref.elc")
+(require 'eglot)
 (require 'jsonrpc)
 
 (defcustom eglot-booster-no-remote-boost nil
