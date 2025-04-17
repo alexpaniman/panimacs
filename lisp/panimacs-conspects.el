@@ -26,7 +26,8 @@
 (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
 
 ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
-(setq org-latex-pdf-process (list "latexmk -pdflatex='%latex -shell-escape -interaction nonstopmode' -pdf -output-directory=%o %f"))
+(setq org-latex-pdf-process (list "latexmk -pdflatex='xelatex -shell-escape -interaction nonstopmode' -pdf -output-directory=%o %f"))
+(setq org-latex-src-block-backend 'listings)
 
 
 (with-eval-after-load 'ox-latex
@@ -51,6 +52,18 @@
                           org-latex-default-packages-alist
                           )
               )
+
+  (setq-local org-latex-default-packages-alist
+              (seq-filter (lambda (package)
+                            (seq-every-p
+                             (lambda (wrong-package)
+                               (not (equal (cadr package) wrong-package)))
+                             '("hyperref"))
+                            )
+                          org-latex-default-packages-alist
+                          )
+              )
+  (setq-default org-latex-default-packages-alist (add-to-list 'org-latex-default-packages-alist '("hidelinks" "hyperref" nil)))
   )
 
 
@@ -61,7 +74,7 @@
 ;; (setq org-preview-latex-default-process 'imagemagick)
 
 (setq org-preview-latex-default-process 'dvisvgm)
-;;       org-image-actual-width nil)
+(setq org-image-actual-width nil)
 
 ;; (defun panimacs/text-scale-adjust-latex-previews ()
 ;;   "Adjust the size of latex preview fragments when changing the
@@ -256,5 +269,14 @@
 
 
 (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1)))
+
+
+(use-package ob-async
+  :straight (ob-async
+             :fetcher github
+             :repo "astahlman/ob-async")
+
+  :config
+  (require 'ob-async))
 
 (provide 'panimacs-conspects)

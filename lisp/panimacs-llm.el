@@ -3,7 +3,7 @@
   (setopt ellama-keymap-prefix "C-c e")
 
   (require 'llm-ollama)
-  (setopt ellama-provider (make-llm-ollama :chat-model "llama3"))
+  (setopt ellama-provider (make-llm-ollama :chat-model "mistral-small:24b"))
   )
 
 (provide 'panimacs-llm)

@@ -197,7 +197,7 @@ shell exits, the buffer is killed."
 	(define-key vterm-mode-map (kbd "M-TAB")      #'multi-vterm-next)
 	(define-key vterm-mode-map (kbd "M-S-TAB")    #'multi-vterm-prev))
 
-(setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+;; (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
 
 
 ;; TODO: make it so it works in tramp
@@ -288,62 +288,58 @@ at the values with which this function was called."
 
 ;; Make eglot correctly detect project root in some cases:
 
-(use-package project
-  :config
+;; All taken from https://andreyor.st/posts/2022-07-16-project-el-enhancements/
 
-  ;; All taken from https://andreyor.st/posts/2022-07-16-project-el-enhancements/
+(defcustom project-root-markers
+  '("Cargo.toml" "compile_commands.json" "compile_flags.txt"
+    "project.clj" ".git" "deps.edn" "shadow-cljs.edn" ".projectile" ".envrc" "build")
+  "Files or directories that indicate the root of a project."
+  :type '(repeat string)
+  :group 'project)
 
-  (defcustom project-root-markers
-    '("Cargo.toml" "compile_commands.json" "compile_flags.txt"
-      "project.clj" ".git" "deps.edn" "shadow-cljs.edn" ".projectile" ".envrc" "build")
-    "Files or directories that indicate the root of a project."
-    :type '(repeat string)
-    :group 'project)
+(defun project-root-p (path)
+  "Check if the current PATH has any of the project root markers."
+  (catch 'found
+    (dolist (marker project-root-markers)
+      (when (file-exists-p (concat path marker))
+        (throw 'found marker)))))
 
-  (defun project-root-p (path)
-    "Check if the current PATH has any of the project root markers."
+(defun project-find-root (path)
+  "Search up the PATH for `project-root-markers'."
+  (let ((path (expand-file-name path)))
     (catch 'found
-      (dolist (marker project-root-markers)
-	(when (file-exists-p (concat path marker))
-          (throw 'found marker)))))
+      (while (not (equal "/" path))
+        (if (not (project-root-p path))
+            (setq path (file-name-directory (directory-file-name path)))
+          (throw 'found (cons 'transient path)))))))
 
-  (defun project-find-root (path)
-    "Search up the PATH for `project-root-markers'."
-    (let ((path (expand-file-name path)))
-      (catch 'found
-	(while (not (equal "/" path))
-	  (if (not (project-root-p path))
-	      (setq path (file-name-directory (directory-file-name path)))
-	    (throw 'found (cons 'transient path)))))))
+(add-to-list 'project-find-functions #'project-find-root)
 
-  (add-to-list 'project-find-functions #'project-find-root)
+(defun project-save-some-buffers (&optional arg)
+  "Save some modified file-visiting buffers in the current project.
 
-  (defun project-save-some-buffers (&optional arg)
-    "Save some modified file-visiting buffers in the current project.
+tional argument ARG (interactively, prefix argument) non-nil
+ans save all with no questions."
+  (interactive "P")
+  (let* ((project-buffers (project-buffers (project-current)))
+         (pred (lambda () (memq (current-buffer) project-buffers))))
+    (funcall-interactively #'save-some-buffers arg pred)))
 
-Optional argument ARG (interactively, prefix argument) non-nil
-means save all with no questions."
-    (interactive "P")
-    (let* ((project-buffers (project-buffers (project-current)))
-           (pred (lambda () (memq (current-buffer) project-buffers))))
-      (funcall-interactively #'save-some-buffers arg pred)))
+(define-advice project-compile (:around (fn) save-project-buffers)
+  "Only ask to save project-related buffers."
+  (let* ((project-buffers (project-buffers (project-current)))
+         (compilation-save-buffers-predicate
+          (lambda () (memq (current-buffer) project-buffers))))
+    (funcall fn)))
 
-  (define-advice project-compile (:around (fn) save-project-buffers)
-    "Only ask to save project-related buffers."
-    (let* ((project-buffers (project-buffers (project-current)))
-           (compilation-save-buffers-predicate
-            (lambda () (memq (current-buffer) project-buffers))))
-      (funcall fn)))
-
-  (define-advice recompile (:around (fn &optional edit-command) save-project-buffers)
-    "Only ask to save project-related buffers if inside a project."
-    (if (project-current)
-	(let* ((project-buffers (project-buffers (project-current)))
-               (compilation-save-buffers-predicate
-		(lambda () (memq (current-buffer) project-buffers))))
-          (funcall fn edit-command))
-      (funcall fn edit-command)))
-  )
+(define-advice recompile (:around (fn &optional edit-command) save-project-buffers)
+  "Only ask to save project-related buffers if inside a project."
+  (if (project-current)
+      (let* ((project-buffers (project-buffers (project-current)))
+             (compilation-save-buffers-predicate
+      	(lambda () (memq (current-buffer) project-buffers))))
+        (funcall fn edit-command))
+    (funcall fn edit-command)))
 
 
 ;; (use-package lsp-mode

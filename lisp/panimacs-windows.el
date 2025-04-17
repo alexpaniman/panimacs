@@ -25,40 +25,37 @@
   )
 
 ;; Setup display-buffer-alist for different windows
-(add-to-list 'display-buffer-alist
-            '("\\*e?shell\\*"
-                (display-buffer-in-side-window)
-                (side . bottom)
-                (slot . -1) ;; -1 == L  0 == Mid 1 == R
-                (window-height . 0.33) ;; take 2/3 on bottom left
-                (window-parameters
-                (no-delete-other-windows . nil))))
-
-(add-to-list 'display-buffer-alist
-            '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\)\\*"
-                (display-buffer-in-side-window)
-                (side . bottom)
-                (slot . 0)
-                (window-height . 0.33)
-                (window-parameters
-                (no-delete-other-windows . nil))))
-
-(add-to-list 'display-buffer-alist
-            '("\\*\\([Hh]elp\\|Command History\\|command-log\\)\\*"
-                (display-buffer-in-side-window)
-                (side . right)
-                (slot . 0)
-                (window-width . 80)
-                (window-parameters
-                (no-delete-other-windows . nil))))
-
-(add-to-list 'display-buffer-alist
-            '("\\*TeX errors\\*"
-                (display-buffer-in-side-window)
-                (side . bottom)
-                (slot . 3)
-                (window-height . shrink-window-if-larger-than-buffer)
-                (dedicated . t)))
+;; (add-to-list 'display-buffer-alist
+;;             '("\\*e?shell\\*"
+;;                (display-buffer-reuse-window display-buffer-same-window)
+;;                (inhibit-same-window . nil)
+;;                 ))
+;; 
+;; (add-to-list 'display-buffer-alist
+;;             '("\\*\\(Backtrace\\|Compile-log\\|Messages\\|Warnings\\)\\*"
+;;                 (display-buffer-in-side-window)
+;;                 (side . bottom)
+;;                 (slot . 0)
+;;                 (window-height . 0.33)
+;;                 (window-parameters
+;;                 (no-delete-other-windows . nil))))
+;; 
+;; (add-to-list 'display-buffer-alist
+;;             '("\\*\\([Hh]elp\\|Command History\\|command-log\\)\\*"
+;;                 (display-buffer-in-side-window)
+;;                 (side . right)
+;;                 (slot . 0)
+;;                 (window-width . 80)
+;;                 (window-parameters
+;;                 (no-delete-other-windows . nil))))
+;; 
+;; (add-to-list 'display-buffer-alist
+;;             '("\\*TeX errors\\*"
+;;                 (display-buffer-in-side-window)
+;;                 (side . bottom)
+;;                 (slot . 3)
+;;                 (window-height . shrink-window-if-larger-than-buffer)
+;;                 (dedicated . t)))
 
 (add-to-list 'display-buffer-alist
             '("\\*TeX Help\\*"

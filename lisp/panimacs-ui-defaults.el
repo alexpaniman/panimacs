@@ -185,6 +185,11 @@ Meant to be called to xdg-open program."
     )
   )
 
+(use-package stillness-mode
+  :straight (stillness-mode :host github :repo "neeasade/stillness-mode.el" :branch "main")
+  :config
+  (stillness-mode 1))
+
 
 ;; TODO: move this
 (defun screenshot-svg ()

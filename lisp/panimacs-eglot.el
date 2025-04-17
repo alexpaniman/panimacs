@@ -40,7 +40,7 @@
 ;; Pasted from eglot-booster.el:
 
 
-(require 'eglot)
+;; (require 'eglot)
 (require 'jsonrpc)
 
 (defcustom eglot-booster-no-remote-boost nil
